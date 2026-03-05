@@ -1,55 +1,120 @@
-# 🎺 Band Admin Prototype
+# 🎺 Bondi Brass – Admin Prototype
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/BondiBrass/admin-proto)
 ![GitHub last commit](https://img.shields.io/github/last-commit/BondiBrass/admin-proto)
 ![GitHub issues](https://img.shields.io/github/issues/BondiBrass/admin-proto)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A lightweight brass band admin dashboard powered by a **single Google Sheet** (multiple tabs).
+A lightweight **band administration dashboard** powered entirely by a **single Google Sheet**.
 
-No backend. No database. Just **HTML + JavaScript + Google Sheets**.
+No backend.  
+No database.  
+Just **HTML + JavaScript + Google Sheets**.
 
----
-
-## 🚀 Live demo
-
-Once GitHub Pages is enabled:
-
-**https://bondibrass.github.io/admin-proto/**
+Designed for **community bands** who want simple administration tools without complicated software.
 
 ---
 
-## ✨ What it does
+# 🚀 Live site
 
-- **Tonight**: next event + program + RSVP summary  
-- **Library**: repertoire search + grade/duration filters + PDF/audio links  
-- **Gigs**: upcoming events + tasks  
-- **Sets**: predefined performance sets (Set → Pieces)  
-- **Committee**: roles + assets register
+Once GitHub Pages is enabled the prototype will run here:
+
+https://bondibrass.github.io/admin-proto/
 
 ---
 
-## 🧠 Architecture
+# ✨ Features
+
+### 🎼 Tonight
+Shows the **next upcoming event**
+
+Includes:
+
+- event details  
+- venue  
+- uniform  
+- map link  
+- concert program  
+- RSVP summary  
+
+---
+
+### 🎶 Library
+
+Searchable band music library.
+
+Filters include:
+
+- search text  
+- grade  
+- duration  
+
+Displays:
+
+- title  
+- composer  
+- missing parts  
+- PDF score  
+- rehearsal audio  
+
+---
+
+### 📅 Gigs
+
+Shows:
+
+- upcoming events  
+- gig preparation tasks  
+
+---
+
+### 🎵 Sets
+
+Defines **pre-planned performance sets**
+
+Examples:
+
+- marching sets  
+- park concerts  
+- festival repertoires  
+
+---
+
+### 🏛 Committee
+
+Band administration information:
+
+- committee roles  
+- band assets  
+- equipment register  
+
+---
+
+# 🧠 Architecture
 
 ```mermaid
-flowchart TD
-  A[Google Sheet<br/>(11 tabs)] -->|GViz CSV per tab| B[index.html<br/>Static site]
-  B --> C[Tonight<br/>Next event + program + RSVP]
-  B --> D[Library<br/>Search + filters]
-  B --> E[Gigs<br/>Events + tasks]
-  B --> F[Sets<br/>Set → pieces]
-  B --> G[Committee<br/>Roles + assets]
+flowchart LR
 
-  subgraph Tabs in Google Sheet
-    T1[Members]
-    T2[Roles]
-    T3[Assets]
-    T4[Pieces]
-    T5[Parts]
-    T6[Sets]
-    T7[SetPieces]
-    T8[Events]
-    T9[Program]
-    T10[Tasks]
-    T11[RSVP]
-  end
+Sheet["Google Sheet\n(11 tabs)"] -->|"CSV via GViz"| App["index.html\nStatic dashboard"]
+
+App --> Tonight["Tonight view"]
+App --> Library["Library view"]
+App --> Gigs["Gigs view"]
+App --> Sets["Sets view"]
+App --> Committee["Committee view"]
+
+subgraph Tabs["Google Sheet tabs"]
+Members
+Roles
+Assets
+Pieces
+Parts
+SetsTab["Sets"]
+SetPieces
+Events
+Program
+Tasks
+RSVP
+end
+
+Tabs --> Sheet
