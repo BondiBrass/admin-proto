@@ -16,6 +16,7 @@
       --good:#2ecc71; --warn:#f1c40f; --bad:#e74c3c;
     }
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);}
+
     header{
       position:sticky;top:0;z-index:10;
       background:rgba(0,0,0,.04);
@@ -24,9 +25,30 @@
       border-bottom:1px solid var(--border);
     }
     [data-theme="dark"] header{ background:rgba(0,0,0,.35); }
+
     .bar{display:flex;gap:10px;align-items:center;justify-content:space-between;}
-    .title{font-weight:900;letter-spacing:.2px}
     .sub{color:var(--muted);font-size:12px}
+
+    /* Brand (logo + title) */
+    .brand{display:flex;gap:12px;align-items:center;}
+    .logoWrap{
+      display:flex;align-items:center;justify-content:center;
+      width:46px;height:46px;border-radius:12px;
+      background:var(--chip);border:1px solid var(--border);
+    }
+    .logo{width:36px;height:36px;object-fit:contain;}
+    .title{font-weight:900;letter-spacing:.3px;font-size:18px;}
+    .title::after{
+      content:"";
+      display:block;
+      width:60px;
+      height:3px;
+      background:var(--link);
+      border-radius:3px;
+      margin-top:4px;
+      opacity:.9;
+    }
+
     .tabs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
     .tabbtn{
       border:1px solid var(--border); background:var(--chip); color:var(--text);
@@ -34,15 +56,18 @@
     }
     .tabbtn.active{outline:2px solid rgba(11,99,255,.25);}
     [data-theme="dark"] .tabbtn.active{outline:2px solid rgba(125,183,255,.35);}
+
     main{padding:14px;max-width:1100px;margin:0 auto;}
     .grid{display:grid;grid-template-columns:1fr;gap:12px;}
     @media (min-width:980px){.grid.cols2{grid-template-columns:1.05fr .95fr;}}
+
     .card{
       background:var(--panel); border:1px solid var(--border); border-radius:16px;
       padding:12px; box-shadow:0 10px 24px rgba(0,0,0,.08);
     }
     [data-theme="dark"] .card{ box-shadow:0 12px 30px rgba(0,0,0,.22); }
     .card h2{margin:0 0 10px;font-size:16px;}
+
     .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
     .pill{
       display:inline-flex;gap:8px;align-items:center;
@@ -50,18 +75,21 @@
       font-size:13px;color:var(--muted);
     }
     .pill strong{color:var(--text);font-weight:800;}
+
     .btn{
       border:1px solid var(--border);background:transparent;color:var(--text);
       padding:8px 10px;border-radius:12px;cursor:pointer;font-weight:800;
     }
     .btn.primary{background:rgba(11,99,255,.10);border-color:rgba(11,99,255,.25);}
     [data-theme="dark"] .btn.primary{background:rgba(125,183,255,.18);border-color:rgba(125,183,255,.40);}
+
     input,select{
       background:transparent;color:var(--text);border:1px solid var(--border);
       border-radius:10px;padding:9px 10px;outline:none;width:100%;
     }
     .controls{display:grid;grid-template-columns:1fr;gap:10px;}
     @media (min-width:680px){.controls{grid-template-columns:2fr 1fr 1fr;}}
+
     table{width:100%;border-collapse:collapse;}
     th,td{border-bottom:1px solid var(--border);padding:8px 6px;text-align:left;font-size:13px;}
     th{color:var(--muted);font-weight:900;}
@@ -82,14 +110,65 @@
       margin-top:10px;padding:10px;border-radius:12px;border:1px solid var(--border);
       background:rgba(241,196,15,.12); color:var(--text);
     }
+
+    /* Departures board */
+    .boardWrap{display:flex;flex-direction:column;gap:10px;}
+    .boardHeader{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+    .boardTitle{margin:0;font-size:16px;font-weight:950;}
+    .boardSub{color:var(--muted);font-size:12px;margin-top:2px;}
+    .boardTable{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:var(--panel);
+    }
+    .boardTable th, .boardTable td{
+      padding:10px 10px;
+      border-bottom:1px solid var(--border);
+      font-size:13px;
+      vertical-align:top;
+    }
+    .boardTable th{
+      font-weight:950;
+      color:var(--muted);
+      background:rgba(0,0,0,.03);
+    }
+    [data-theme="dark"] .boardTable th{ background:rgba(255,255,255,.04); }
+    .boardTable tr:last-child td{ border-bottom:0; }
+    .typeChip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid var(--border);background:var(--chip);
+      font-size:12px;font-weight:950;color:var(--text);
+      white-space:nowrap;
+    }
+    .typeDot{width:9px;height:9px;border-radius:99px;display:inline-block;}
+    .dotReh{ background: rgba(11,99,255,.95); }
+    .dotGig{ background: rgba(241,196,15,.95); }
+    .dotAny{ background: rgba(46,204,113,.95); }
+    .dotOther{ background: rgba(156,163,175,.95); }
+    .boardMain{font-weight:950;}
+    .boardMetaRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+    .boardEmpty{color:var(--muted);font-size:13px;}
+
+    /* Chart area */
+    #bandActivityChart svg text{ font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial; }
   </style>
 </head>
 <body>
 <header>
   <div class="bar">
-    <div>
-      <div class="title">Bondi Brass — Admin Proto</div>
-      <div class="sub" id="statusLine">Not loaded</div>
+    <div class="brand">
+      <div class="logoWrap">
+        <img src="./images/bb_gen_logo.png" class="logo" alt="Bondi Brass logo">
+      </div>
+      <div>
+        <div class="title">Bondi Brass — Admin Proto</div>
+        <div class="sub" id="statusLine">Not loaded</div>
+      </div>
     </div>
     <div class="row">
       <button class="btn" id="themeBtn" title="Toggle theme">Theme</button>
@@ -108,6 +187,18 @@
 
 <main>
   <section id="tab-tonight">
+    <div class="card" style="margin-bottom:12px;">
+      <div class="boardWrap">
+        <div class="boardHeader">
+          <div>
+            <h2 class="boardTitle">Tonight — Departures</h2>
+            <div class="boardSub">Next up, next rehearsal, next gig</div>
+          </div>
+        </div>
+        <div id="departureBoard"></div>
+      </div>
+    </div>
+
     <div class="grid cols2">
       <div class="card">
         <h2>Next up</h2>
@@ -172,9 +263,29 @@
   <section id="tab-gigs" class="hidden">
     <div class="grid cols2">
       <div class="card">
-        <h2>Upcoming events</h2>
+        <div class="row" style="justify-content:space-between;align-items:flex-end;">
+          <div>
+            <h2 style="margin:0;">Upcoming events</h2>
+            <div class="muted small" id="eventsRangeLabel">Next 3 months</div>
+          </div>
+          <div style="min-width:170px">
+            <label class="small muted" for="eventsRange" style="display:block;margin-bottom:4px;">Range</label>
+            <select id="eventsRange">
+              <option value="1">1 month</option>
+              <option value="3" selected>3 months</option>
+              <option value="6">6 months</option>
+              <option value="12">1 year</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+        <div id="bandActivityChart"></div>
+        <div style="height:10px"></div>
+
         <div id="eventsList" class="muted">No upcoming events.</div>
       </div>
+
       <div class="card">
         <h2>Tasks</h2>
         <div id="tasksList" class="muted">No tasks.</div>
@@ -209,6 +320,8 @@
 <footer>
   Bondi Brass admin-proto — reads from one Google Sheet (recommended: one JSON API via Apps Script).
 </footer>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
 /**
@@ -268,6 +381,8 @@ $("themeBtn").addEventListener("click", ()=>{
   const next = cur === "dark" ? "light" : "dark";
   document.documentElement.dataset.theme = next;
   localStorage.setItem("bb_theme", next);
+  // redraw chart colours to match theme
+  if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
 });
 
 // -------- CSV parser (minimal, handles quotes) --------
@@ -325,11 +440,32 @@ async function fetchAllJson(){
 }
 
 // -------- Helpers --------
-function toDate(s){
+function addMonths(d, n){
+  const x = new Date(d.getTime());
+  x.setMonth(x.getMonth() + n);
+  return x;
+}
+
+function normalizeEventDate(s){
+  // Handles:
+  // YYYY-MM-DD
+  // YYYY-MM-DD H:MM
+  // YYYY-MM-DD HH:MM
+  // YYYY-MM-DD HH:MM:SS
+  // YYYY-MM-DDTHH:MM(:SS)
   if(!s) return null;
-  const d = new Date(String(s).replace(" ", "T"));
+  let t = String(s).trim().replace(/\s+/g," ").replace("T"," ");
+  if(/^\d{4}-\d{2}-\d{2}$/.test(t)) t += " 00:00:00";
+  if(/^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}$/.test(t)) t += ":00";
+  t = t.replace(/^(\d{4}-\d{2}-\d{2}) (\d{1,2}):/, (_,a,h)=> `${a} ${String(h).padStart(2,"0")}:`);
+  const d = new Date(t.replace(" ","T"));
   return isNaN(+d) ? null : d;
 }
+
+function toDate(s){
+  return normalizeEventDate(s);
+}
+
 function fmtWhen(d){
   if(!d) return "n/a";
   return d.toLocaleString(undefined,{weekday:"short",year:"numeric",month:"short",day:"2-digit",hour:"2-digit",minute:"2-digit"});
@@ -344,6 +480,87 @@ function safeLink(url,label){
   const u=(url||"").trim();
   if(!u) return "";
   return `<a href="${u}" target="_blank" rel="noopener">${label||"link"}</a>`;
+}
+
+// -------- Departures board (Tonight) --------
+function dotClassForType(t){
+  t = String(t||"").toLowerCase();
+  if(t === "rehearsal") return "dotReh";
+  if(t === "gig") return "dotGig";
+  if(t === "next up") return "dotAny";
+  return "dotOther";
+}
+
+function nextEvent(predicate){
+  const now = new Date();
+  return state.events
+    .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
+    .filter(e => e._start && e._start >= now)
+    .filter(predicate || (()=>true))
+    .sort((a,b)=>a._start-b._start)[0] || null;
+}
+
+function rowHTML(label, ev){
+  if(!ev){
+    return `
+      <tr>
+        <td><span class="typeChip"><span class="typeDot ${dotClassForType(label)}"></span>${label}</span></td>
+        <td class="boardEmpty">No upcoming ${label.toLowerCase()}.</td>
+        <td class="muted">—</td>
+      </tr>
+    `;
+  }
+
+  const when = ev._start ? fmtWhen(ev._start) : "n/a";
+  const venue = ev.venue || "n/a";
+  const uniform = ev.uniform || "n/a";
+  const map = ev.map_url ? safeLink(ev.map_url, "Map") : "";
+  const notes = (ev.notes||"").trim();
+
+  return `
+    <tr>
+      <td>
+        <span class="typeChip">
+          <span class="typeDot ${dotClassForType(String(ev.type||label))}"></span>
+          ${label}
+        </span>
+      </td>
+      <td>
+        <div class="boardMain">${ev.title || "Untitled"}</div>
+        <div class="boardMetaRow">
+          <span class="pill"><strong>When</strong> ${when}</span>
+          <span class="pill"><strong>Venue</strong> ${venue}</span>
+          <span class="pill"><strong>Uniform</strong> ${uniform}</span>
+          ${map ? `<span class="pill">${map}</span>` : ""}
+        </div>
+        ${notes ? `<div class="muted small" style="margin-top:6px">${notes}</div>` : ""}
+      </td>
+      <td class="muted">${ev.event_id || ""}</td>
+    </tr>
+  `;
+}
+
+function renderDepartureBoard(){
+  const nextUp = nextEvent();
+  const nextReh = nextEvent(e => String(e.type||"").toLowerCase() === "rehearsal");
+  const nextGig = nextEvent(e => String(e.type||"").toLowerCase() === "gig");
+
+  $("departureBoard").innerHTML = `
+    <table class="boardTable">
+      <thead>
+        <tr>
+          <th style="width:140px;">Board</th>
+          <th>Details</th>
+          <th style="width:120px;">Event ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rowHTML("Next up", nextUp)}
+        ${rowHTML("Rehearsal", nextReh)}
+        ${rowHTML("Gig", nextGig)}
+      </tbody>
+    </table>
+  `;
 }
 
 // -------- Rendering --------
@@ -511,30 +728,181 @@ function renderLibrary(){
     }).join("");
 }
 
+// -------- D3 chart for band activity --------
+function renderBandActivityChart(events, monthsAhead){
+  const host = $("bandActivityChart");
+  if(!host) return;
+  host.innerHTML = "";
+
+  const now = new Date();
+  const limit = addMonths(now, monthsAhead);
+
+  const rows = events
+    .map(e => {
+      const dt = toDate(e.start);
+      if(!dt || dt < now || dt > limit) return null;
+      const month = new Date(dt.getFullYear(), dt.getMonth(), 1);
+      const isReh = String(e.type||"").toLowerCase() === "rehearsal";
+      return { month, isReh };
+    })
+    .filter(Boolean);
+
+  if(!rows.length){
+    host.innerHTML = `<div class="muted small">No activity in selected range.</div>`;
+    return;
+  }
+
+  const minMonth = d3.min(rows, d => d.month);
+  const maxMonth = d3.max(rows, d => d.month);
+  const months = d3.timeMonths(minMonth, d3.timeMonth.offset(maxMonth, 1));
+
+  const buckets = new Map(months.map(m => [+m, { month:m, rehearsal:0, other:0 }]));
+  for(const r of rows){
+    const b = buckets.get(+r.month);
+    if(!b) continue;
+    if(r.isReh) b.rehearsal++;
+    else b.other++;
+  }
+  const data = Array.from(buckets.values()).sort((a,b)=> +a.month - +b.month);
+
+  const keys = ["rehearsal","other"];
+  const series = d3.stack().keys(keys)(data);
+
+  const W = Math.max(520, host.clientWidth || 760);
+  const H = 210;
+  const margin = { top: 14, right: 12, bottom: 34, left: 34 };
+
+  const x = d3.scaleBand()
+    .domain(data.map(d => +d.month))
+    .range([margin.left, W - margin.right])
+    .padding(0.22);
+
+  const yMax = d3.max(data, d => d.rehearsal + d.other) || 1;
+  const y = d3.scaleLinear()
+    .domain([0, yMax]).nice()
+    .range([H - margin.bottom, margin.top]);
+
+  const css = getComputedStyle(document.documentElement);
+  const rehearsalColor = css.getPropertyValue("--link").trim() || "#0b63ff";
+  const otherColor = css.getPropertyValue("--muted").trim() || "#5c6575";
+
+  const color = new Map([
+    ["rehearsal", rehearsalColor],
+    ["other", otherColor]
+  ]);
+
+  const svg = d3.select(host)
+    .append("svg")
+    .attr("viewBox", `0 0 ${W} ${H}`)
+    .style("max-width","100%")
+    .style("height","auto");
+
+  svg.append("g")
+    .attr("transform", `translate(0,${H - margin.bottom})`)
+    .call(d3.axisBottom(x).tickFormat(k => d3.timeFormat("%b")(new Date(+k))))
+    .call(g => g.selectAll("text").style("font-weight", 800).style("fill","currentColor"));
+
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y).ticks(4).tickFormat(d3.format("d")))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll("text").style("fill","currentColor"));
+
+  // tooltip
+  const tipHost = d3.select(host).append("div").style("position","relative");
+  const tooltip = tipHost.append("div")
+    .style("position","absolute")
+    .style("pointer-events","none")
+    .style("padding","8px 10px")
+    .style("border-radius","10px")
+    .style("border","1px solid var(--border)")
+    .style("background","var(--panel)")
+    .style("color","var(--text)")
+    .style("font","12px system-ui,-apple-system,Segoe UI,Roboto,Arial")
+    .style("display","none")
+    .style("box-shadow","0 10px 24px rgba(0,0,0,.18)");
+
+  const bounds = () => host.getBoundingClientRect();
+  function showTip(evt, d){
+    tooltip.style("display","block")
+      .html(`
+        <div style="font-weight:900;margin-bottom:4px;">${d3.timeFormat("%B %Y")(d.month)}</div>
+        <div>Rehearsals: <strong>${d.rehearsal}</strong></div>
+        <div>Other: <strong>${d.other}</strong></div>
+        <div style="margin-top:4px" class="muted">Total: ${d.rehearsal + d.other}</div>
+      `);
+    const b = bounds();
+    tooltip
+      .style("left", (evt.clientX - b.left + 10) + "px")
+      .style("top",  (evt.clientY - b.top  - 10) + "px");
+  }
+  function hideTip(){ tooltip.style("display","none"); }
+
+  svg.append("g")
+    .selectAll("g.layer")
+    .data(series)
+    .join("g")
+      .attr("fill", s => color.get(s.key))
+    .selectAll("rect")
+    .data(s => s.map(v => ({ key:s.key, v, d:v.data })))
+    .join("rect")
+      .attr("x", p => x(+p.d.month))
+      .attr("width", x.bandwidth())
+      .attr("y", p => y(p.v[1]))
+      .attr("height", p => Math.max(0, y(p.v[0]) - y(p.v[1])))
+      .attr("rx", 8)
+      .on("mousemove", (evt, p) => showTip(evt, p.d))
+      .on("mouseleave", hideTip);
+
+  // legend
+  const lg = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+  const items = [
+    {k:"rehearsal", label:"Rehearsal"},
+    {k:"other", label:"Other"}
+  ];
+  lg.selectAll("g.i")
+    .data(items)
+    .join("g")
+      .attr("class","i")
+      .attr("transform",(d,i)=>`translate(${i*120},0)`)
+      .each(function(d){
+        const g = d3.select(this);
+        g.append("rect").attr("x",0).attr("y",-10).attr("width",14).attr("height",14).attr("rx",4).attr("fill", color.get(d.k));
+        g.append("text").attr("x",20).attr("y",2).style("font","12px system-ui").style("fill","currentColor").style("font-weight",800).text(d.label);
+      });
+}
+
 function renderEventsAndTasks(){
   const now = new Date();
+
+  const monthsAhead = parseInt($("eventsRange")?.value || "3", 10);
+  const limit = addMonths(now, monthsAhead);
+
+  if($("eventsRangeLabel")){
+    $("eventsRangeLabel").textContent = `Next ${monthsAhead === 12 ? "1 year" : monthsAhead + " months"}`;
+  }
+
   const upcoming = state.events
     .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
-    .filter(e => e._start && e._start >= now)
-    .sort((a,b)=>a._start-b._start)
-    .slice(0,40);
+    .filter(e => e._start && e._start >= now && e._start <= limit)
+    .sort((a,b)=>a._start-b._start);
+
+  renderBandActivityChart(state.events, monthsAhead);
 
   $("eventsList").innerHTML = upcoming.length
-    ? upcoming.map(e=>{
-        return `
-          <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-            <div class="row">
-              <span class="pill"><strong>${(e.type||"event").toUpperCase()}</strong></span>
-              <div><strong>${e.title||"Untitled"}</strong> <span class="muted">(${e.event_id||""})</span></div>
-            </div>
-            <div class="row" style="margin-top:6px">
-              <span class="pill">${fmtWhen(e._start)}</span>
-              <span class="pill"><strong>Venue</strong> ${e.venue||"n/a"}</span>
-              ${e.map_url ? `<span class="pill">${safeLink(e.map_url,"Map")}</span>` : ""}
-            </div>
+    ? upcoming.slice(0,60).map(e=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div class="row">
+            <span class="pill"><strong>${(e.type||"event").toUpperCase()}</strong></span>
+            <div><strong>${e.title||"Untitled"}</strong> <span class="muted">(${e.event_id||""})</span></div>
           </div>
-        `;
-      }).join("")
+          <div class="row" style="margin-top:6px">
+            <span class="pill">${fmtWhen(e._start)}</span>
+            <span class="pill"><strong>Venue</strong> ${e.venue||"n/a"}</span>
+            ${e.map_url ? `<span class="pill">${safeLink(e.map_url,"Map")}</span>` : ""}
+          </div>
+        </div>
+      `).join("")
     : `<div class="muted">No upcoming events.</div>`;
 
   const tasks = state.tasks.slice().sort((a,b)=>(a.due||"").localeCompare(b.due||""));
@@ -637,6 +1005,7 @@ function switchTab(name){
     document.querySelector(`.tabbtn[data-tab="${t}"]`).classList.toggle("active", t===name);
   }
   if(name==="library") renderLibrary();
+  if(name==="gigs") renderEventsAndTasks();
   if(name==="sets") renderSets();
   if(name==="committee") renderCommittee();
 }
@@ -648,6 +1017,11 @@ $("refreshBtn").addEventListener("click", loadAll);
 $("libSearch").addEventListener("input", renderLibrary);
 $("libGrade").addEventListener("change", renderLibrary);
 $("libMaxDur").addEventListener("change", renderLibrary);
+
+$("eventsRange")?.addEventListener("change", renderEventsAndTasks);
+window.addEventListener("resize", () => {
+  if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
+});
 
 // -------- Load all data --------
 async function loadAll(){
@@ -709,6 +1083,7 @@ async function loadAll(){
     setStatus(`Loaded (${state.source}) — members:${state.members.length} pieces:${state.pieces.length} events:${state.events.length} — ${state.lastLoaded.toLocaleString()}`);
 
     renderNextEvent();
+    renderDepartureBoard();
     renderLibrary();
     renderEventsAndTasks();
     renderSets();
@@ -729,44 +1104,6 @@ async function loadAll(){
 }
 
 loadAll();
-</script>
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
 </script>
 </body>
 </html>
