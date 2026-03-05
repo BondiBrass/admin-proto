@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bondi Brass Admin Proto</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --panel:#ffffff; --muted:#5c6575; --text:#0f1220;
+      --border:rgba(0,0,0,.10); --chip:rgba(0,0,0,.06); --link:#0b63ff;
+      --good:#2ecc71; --warn:#f1c40f; --bad:#e74c3c;
+    }
+    [data-theme="dark"]{
+      --bg:#0b0c0f; --panel:#11131a; --muted:#9aa3b2; --text:#e7eaf0;
+      --border:rgba(255,255,255,.10); --chip:rgba(255,255,255,.08); --link:#7db7ff;
+      --good:#2ecc71; --warn:#f1c40f; --bad:#e74c3c;
+    }
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);}
+    header{
+      position:sticky;top:0;z-index:10;
+      background:rgba(0,0,0,.04);
+      backdrop-filter:blur(10px);
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--border);
+    }
+    [data-theme="dark"] header{ background:rgba(0,0,0,.35); }
+    .bar{display:flex;gap:10px;align-items:center;justify-content:space-between;}
+    .title{font-weight:900;letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:12px}
+    .tabs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+    .tabbtn{
+      border:1px solid var(--border); background:var(--chip); color:var(--text);
+      padding:8px 10px;border-radius:999px;cursor:pointer;font-weight:700;font-size:13px;
+    }
+    .tabbtn.active{outline:2px solid rgba(11,99,255,.25);}
+    [data-theme="dark"] .tabbtn.active{outline:2px solid rgba(125,183,255,.35);}
+    main{padding:14px;max-width:1100px;margin:0 auto;}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;}
+    @media (min-width:980px){.grid.cols2{grid-template-columns:1.05fr .95fr;}}
+    .card{
+      background:var(--panel); border:1px solid var(--border); border-radius:16px;
+      padding:12px; box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+    [data-theme="dark"] .card{ box-shadow:0 12px 30px rgba(0,0,0,.22); }
+    .card h2{margin:0 0 10px;font-size:16px;}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .pill{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);
+      font-size:13px;color:var(--muted);
+    }
+    .pill strong{color:var(--text);font-weight:800;}
+    .btn{
+      border:1px solid var(--border);background:transparent;color:var(--text);
+      padding:8px 10px;border-radius:12px;cursor:pointer;font-weight:800;
+    }
+    .btn.primary{background:rgba(11,99,255,.10);border-color:rgba(11,99,255,.25);}
+    [data-theme="dark"] .btn.primary{background:rgba(125,183,255,.18);border-color:rgba(125,183,255,.40);}
+    input,select{
+      background:transparent;color:var(--text);border:1px solid var(--border);
+      border-radius:10px;padding:9px 10px;outline:none;width:100%;
+    }
+    .controls{display:grid;grid-template-columns:1fr;gap:10px;}
+    @media (min-width:680px){.controls{grid-template-columns:2fr 1fr 1fr;}}
+    table{width:100%;border-collapse:collapse;}
+    th,td{border-bottom:1px solid var(--border);padding:8px 6px;text-align:left;font-size:13px;}
+    th{color:var(--muted);font-weight:900;}
+    a{color:var(--link);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .muted{color:var(--muted);}
+    .small{font-size:12px;}
+    .right{margin-left:auto;}
+    .hidden{display:none;}
+    .tag{
+      display:inline-block;padding:3px 8px;border-radius:999px;border:1px solid var(--border);
+      background:var(--chip);color:var(--muted);font-size:12px;margin:2px 6px 0 0;white-space:nowrap;
+    }
+    .statusDot{width:10px;height:10px;border-radius:999px;display:inline-block;}
+    footer{padding:18px 14px 30px;color:var(--muted);text-align:center;font-size:12px;}
+    code{background:var(--chip);padding:2px 6px;border-radius:8px;border:1px solid var(--border);}
+    .warnbox{
+      margin-top:10px;padding:10px;border-radius:12px;border:1px solid var(--border);
+      background:rgba(241,196,15,.12); color:var(--text);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div>
+      <div class="title">Bondi Brass — Admin Proto</div>
+      <div class="sub" id="statusLine">Not loaded</div>
+    </div>
+    <div class="row">
+      <button class="btn" id="themeBtn" title="Toggle theme">Theme</button>
+      <button class="btn primary" id="refreshBtn">Refresh</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tabbtn active" data-tab="tonight">Tonight</button>
+    <button class="tabbtn" data-tab="library">Library</button>
+    <button class="tabbtn" data-tab="gigs">Gigs</button>
+    <button class="tabbtn" data-tab="sets">Sets</button>
+    <button class="tabbtn" data-tab="committee">Committee</button>
+  </div>
+</header>
+
+<main>
+  <section id="tab-tonight">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>Next up</h2>
+        <div id="nextEventBox" class="muted">No upcoming events found.</div>
+        <div style="height:10px"></div>
+        <div class="row">
+          <span class="pill" id="rsvpSummaryPill"><strong>RSVP</strong> n/a</span>
+        </div>
+
+        <div id="sourceWarn" class="warnbox hidden">
+          <strong>Heads up:</strong> Using CSV fallback (GViz). Set <code>API_URL</code> to your Apps Script Web App
+          for a single fast JSON load.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>RSVP summary (for next event)</h2>
+        <div class="muted small" style="margin-bottom:10px;">
+          Read-only demo. Write-back can be added later (Google Form / Apps Script).
+        </div>
+        <div id="rsvpBox" class="muted">No RSVP data.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h2>Program (for next event)</h2>
+      <div id="programBox" class="muted">No program entries.</div>
+    </div>
+  </section>
+
+  <section id="tab-library" class="hidden">
+    <div class="card">
+      <h2>Library</h2>
+      <div class="controls">
+        <div>
+          <label class="small muted">Search</label>
+          <input id="libSearch" placeholder="title / composer / tags…" />
+        </div>
+        <div>
+          <label class="small muted">Grade</label>
+          <select id="libGrade">
+            <option value="">All</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <label class="small muted">Max duration</label>
+          <select id="libMaxDur">
+            <option value="">Any</option>
+            <option value="240">≤ 4 min</option>
+            <option value="360">≤ 6 min</option>
+            <option value="480">≤ 8 min</option>
+            <option value="600">≤ 10 min</option>
+          </select>
+        </div>
+      </div>
+      <div id="libraryResults" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+  <section id="tab-gigs" class="hidden">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>Upcoming events</h2>
+        <div id="eventsList" class="muted">No upcoming events.</div>
+      </div>
+      <div class="card">
+        <h2>Tasks</h2>
+        <div id="tasksList" class="muted">No tasks.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-sets" class="hidden">
+    <div class="card">
+      <h2>Sets</h2>
+      <div class="muted small" style="margin-bottom:10px;">
+        Sets come from <code>Sets</code> and <code>SetPieces</code>.
+      </div>
+      <div id="setsBox" class="muted">No sets.</div>
+    </div>
+  </section>
+
+  <section id="tab-committee" class="hidden">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>Roles</h2>
+        <div id="rolesBox" class="muted">No roles.</div>
+      </div>
+      <div class="card">
+        <h2>Assets</h2>
+        <div id="assetsBox" class="muted">No assets.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Bondi Brass admin-proto — reads from one Google Sheet (recommended: one JSON API via Apps Script).
+</footer>
+
+<script>
+/**
+ * =========================
+ * 1) CONFIG: JSON API (best)
+ * =========================
+ * If you deploy Apps Script as a Web App (doGet returns {meta, data}),
+ * paste the /exec URL here:
+ *
+ *   const API_URL = "https://script.google.com/macros/s/XXXX/exec";
+ *
+ * Leave blank to use CSV fallback.
+ */
+const API_URL = ""; // <-- paste Apps Script Web App URL (ends in /exec) to use JSON
+
+/**
+ * =========================
+ * 2) CSV fallback (GViz)
+ * =========================
+ * Works if the sheet is shared "Anyone with link: Viewer".
+ */
+const SHEET_ID = "16UcJK2d3zjVJ_nNgHg7aGn8Kh_1l4F4_wHQb8uBZGgg";
+const GVIZ_BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
+
+const TAB = {
+  Members: "Members",
+  Roles: "Roles",
+  Assets: "Assets",
+  Pieces: "Pieces",
+  Parts: "Parts",
+  Sets: "Sets",
+  SetPieces: "SetPieces",
+  Events: "Events",
+  Program: "Program",
+  Tasks: "Tasks",
+  RSVP: "RSVP",
+};
+
+const state = {
+  members: [], roles: [], assets: [],
+  pieces: [], parts: [], sets: [], setPieces: [],
+  events: [], program: [], tasks: [], rsvp: [],
+  lastLoaded: null,
+  source: "unknown"
+};
+
+function $(id){ return document.getElementById(id); }
+function setStatus(msg){ $("statusLine").textContent = msg; }
+
+// -------- Theme (localStorage) --------
+(function initTheme(){
+  const saved = localStorage.getItem("bb_theme") || "light";
+  document.documentElement.dataset.theme = saved;
+})();
+$("themeBtn").addEventListener("click", ()=>{
+  const cur = document.documentElement.dataset.theme || "light";
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("bb_theme", next);
+});
+
+// -------- CSV parser (minimal, handles quotes) --------
+function parseCsv(text){
+  const rows=[]; let i=0, field="", row=[], inQuotes=false;
+  const pushField=()=>{ row.push(field); field=""; };
+  const pushRow=()=>{ rows.push(row); row=[]; };
+
+  while(i<text.length){
+    const c=text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field += '"'; i+=2; continue; }
+        inQuotes=false; i++; continue;
+      }
+      field += c; i++; continue;
+    }else{
+      if(c === '"'){ inQuotes=true; i++; continue; }
+      if(c === ","){ pushField(); i++; continue; }
+      if(c === "\r"){ i++; continue; }
+      if(c === "\n"){ pushField(); pushRow(); i++; continue; }
+      field += c; i++; continue;
+    }
+  }
+  pushField();
+  if(row.length>1 || (row.length===1 && row[0]!== "")) pushRow();
+  if(!rows.length) return [];
+  const headers = rows[0].map(h => h.trim());
+  const out=[];
+  for(let r=1;r<rows.length;r++){
+    const obj={};
+    for(let c=0;c<headers.length;c++) obj[headers[c]] = (rows[r][c] ?? "").trim();
+    out.push(obj);
+  }
+  return out;
+}
+
+async function fetchCsv(tabName){
+  const url = GVIZ_BASE + encodeURIComponent(tabName);
+  const res = await fetch(url, { cache:"no-store" });
+  if(!res.ok) throw new Error(`Fetch failed (${res.status}) for ${tabName}`);
+  const text = await res.text();
+  if (text.includes("<html") && text.toLowerCase().includes("accounts.google.com")) {
+    throw new Error("Sheet access blocked (login page). Set sharing to 'Anyone with link: Viewer'.");
+  }
+  return parseCsv(text);
+}
+
+async function fetchAllJson(){
+  const res = await fetch(API_URL, { cache:"no-store" });
+  if(!res.ok) throw new Error(`API failed (${res.status})`);
+  const j = await res.json();
+  if(!j || !j.data) throw new Error("API returned unexpected JSON (expected { meta, data }).");
+  return j;
+}
+
+// -------- Helpers --------
+function toDate(s){
+  if(!s) return null;
+  const d = new Date(String(s).replace(" ", "T"));
+  return isNaN(+d) ? null : d;
+}
+function fmtWhen(d){
+  if(!d) return "n/a";
+  return d.toLocaleString(undefined,{weekday:"short",year:"numeric",month:"short",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+}
+function durText(sec){
+  const n=Number(sec);
+  if(!isFinite(n) || n<=0) return "";
+  const m=Math.floor(n/60), s=n%60;
+  return `${m}:${String(s).padStart(2,"0")}`;
+}
+function safeLink(url,label){
+  const u=(url||"").trim();
+  if(!u) return "";
+  return `<a href="${u}" target="_blank" rel="noopener">${label||"link"}</a>`;
+}
+
+// -------- Rendering --------
+function renderNextEvent(){
+  const now = new Date();
+  const upcoming = state.events
+    .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
+    .filter(e => e._start && e._start >= now)
+    .sort((a,b)=>a._start-b._start);
+
+  if(!upcoming.length){
+    $("nextEventBox").innerHTML = `<div class="muted">No upcoming events found.</div>`;
+    $("programBox").innerHTML = `<div class="muted">No program entries.</div>`;
+    $("rsvpBox").innerHTML = `<div class="muted">No RSVP data.</div>`;
+    $("rsvpSummaryPill").innerHTML = `<strong>RSVP</strong> n/a`;
+    return;
+  }
+
+  const ev = upcoming[0];
+  $("nextEventBox").innerHTML = `
+    <div class="row">
+      <span class="pill"><strong>${(ev.type||"event").toUpperCase()}</strong></span>
+      <span class="pill"><strong>${ev.title||"Untitled"}</strong></span>
+      <span class="pill">${fmtWhen(ev._start)} → ${fmtWhen(ev._end)}</span>
+    </div>
+    <div style="height:10px"></div>
+    <div class="row">
+      <span class="pill"><strong>Venue</strong> ${ev.venue||"n/a"}</span>
+      <span class="pill"><strong>Uniform</strong> ${ev.uniform||"n/a"}</span>
+      ${ev.map_url ? `<span class="pill">${safeLink(ev.map_url,"Map")}</span>` : ""}
+    </div>
+    ${ev.notes ? `<div style="margin-top:10px" class="muted">${ev.notes}</div>` : ""}
+  `;
+
+  // Program
+  const prog = state.program
+    .filter(p => (p.event_id||"") === (ev.event_id||""))
+    .sort((a,b)=>Number(a.order||9999)-Number(b.order||9999));
+
+  const piecesById = new Map(state.pieces.map(p => [p.piece_id, p]));
+  if(!prog.length){
+    $("programBox").innerHTML = `<div class="muted">No program entries for <strong>${ev.event_id}</strong>.</div>`;
+  }else{
+    $("programBox").innerHTML = prog.map(p=>{
+      const piece = piecesById.get(p.piece_id) || {};
+      const title = piece.title || p.piece_id || "Unknown";
+      const composer = piece.composer ? ` <span class="muted">(${piece.composer})</span>` : "";
+      const pdf = piece.pdf_url ? `<span class="tag">${safeLink(piece.pdf_url,"PDF")}</span>` : "";
+      const aud = piece.audio_url ? `<span class="tag">${safeLink(piece.audio_url,"Audio")}</span>` : "";
+      return `
+        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div class="row">
+            <span class="pill"><strong>#${p.order||""}</strong></span>
+            <div><strong>${title}</strong>${composer}</div>
+            <div class="right muted">${durText(piece.duration_sec)}</div>
+          </div>
+          <div style="margin-top:6px">${pdf} ${aud}</div>
+          ${p.performance_notes ? `<div class="muted small" style="margin-top:6px">${p.performance_notes}</div>` : ""}
+          ${p.mc_notes ? `<div class="muted small" style="margin-top:6px"><strong>MC:</strong> ${p.mc_notes}</div>` : ""}
+        </div>
+      `;
+    }).join("");
+  }
+
+  // RSVP
+  const rsvpRows = state.rsvp.filter(r => (r.event_id||"") === (ev.event_id||""));
+  if(!rsvpRows.length){
+    $("rsvpBox").innerHTML = `<div class="muted">No RSVP rows for <strong>${ev.event_id}</strong>.</div>`;
+    $("rsvpSummaryPill").innerHTML = `<strong>RSVP</strong> n/a`;
+  }else{
+    const counts = {Y:0,M:0,N:0,other:0};
+    for(const r of rsvpRows){
+      const v = (r.response||"").toUpperCase();
+      if(v==="Y"||v==="YES") counts.Y++;
+      else if(v==="M"||v==="MAYBE") counts.M++;
+      else if(v==="N"||v==="NO") counts.N++;
+      else counts.other++;
+    }
+    $("rsvpSummaryPill").innerHTML = `<strong>RSVP</strong> Y:${counts.Y} M:${counts.M} N:${counts.N}`;
+    $("rsvpBox").innerHTML = `
+      <div class="row" style="margin-bottom:10px">
+        <span class="pill"><span class="statusDot" style="background:var(--good)"></span> <strong>Yes</strong> ${counts.Y}</span>
+        <span class="pill"><span class="statusDot" style="background:var(--warn)"></span> <strong>Maybe</strong> ${counts.M}</span>
+        <span class="pill"><span class="statusDot" style="background:var(--bad)"></span> <strong>No</strong> ${counts.N}</span>
+      </div>
+      <table>
+        <thead><tr><th>Member</th><th>Resp</th><th>When</th><th>Comment</th></tr></thead>
+        <tbody>
+          ${rsvpRows.slice(0,40).map(r=>{
+            const name = (state.members.find(m=>m.member_id===r.member_id)?.name) || r.member_id || "";
+            return `<tr><td>${name}</td><td>${r.response||""}</td><td class="muted">${r.timestamp||""}</td><td class="muted">${r.comment||""}</td></tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+      <div class="muted small" style="margin-top:8px;">Showing ${Math.min(rsvpRows.length,40)} of ${rsvpRows.length}</div>
+    `;
+  }
+}
+
+function renderLibrary(){
+  const q = ($("libSearch").value||"").trim().toLowerCase();
+  const grade = ($("libGrade").value||"").trim();
+  const maxDur = Number($("libMaxDur").value||0);
+
+  const partMap = new Map();
+  for(const prt of state.parts){
+    const pid = prt.piece_id || "";
+    if(!pid) continue;
+    const arr = partMap.get(pid) || [];
+    arr.push(prt);
+    partMap.set(pid, arr);
+  }
+
+  let list = state.pieces.slice();
+  if(grade) list = list.filter(p => String(p.grade||"").trim() === grade);
+  if(maxDur) list = list.filter(p => Number(p.duration_sec||0)>0 ? Number(p.duration_sec)<=maxDur : true);
+
+  if(q){
+    list = list.filter(p=>{
+      const hay=[p.piece_id,p.title,p.composer,p.arranger,p.style_tags,p.notes].filter(Boolean).join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  list.sort((a,b)=>(a.title||"").localeCompare(b.title||""));
+
+  if(!list.length){
+    $("libraryResults").innerHTML = `<div class="muted">No matches.</div>`;
+    return;
+  }
+
+  $("libraryResults").innerHTML =
+    `<div class="muted small">Showing ${Math.min(list.length,250)} of ${list.length}</div>` +
+    list.slice(0,250).map(p=>{
+      const tags=(p.style_tags||"").split(/[;|,]/).map(t=>t.trim()).filter(Boolean).slice(0,8);
+      const tagHtml=tags.map(t=>`<span class="tag">${t}</span>`).join("");
+
+      const prts = partMap.get(p.piece_id) || [];
+      const missing = prts.filter(x => String(x.is_missing||"").toLowerCase()==="true" || String(x.is_missing||"")==="1" || String(x.is_missing||"").toLowerCase()==="yes");
+      const partsSummary = prts.length
+        ? (missing.length
+          ? `<span class="pill"><span class="statusDot" style="background:var(--warn)"></span> <strong>Parts</strong> ${missing.length} missing</span>`
+          : `<span class="pill"><span class="statusDot" style="background:var(--good)"></span> <strong>Parts</strong> OK</span>`)
+        : `<span class="pill"><span class="statusDot" style="background:var(--muted)"></span> <strong>Parts</strong> n/a</span>`;
+
+      return `
+        <div class="card" style="margin-top:10px;">
+          <div class="row">
+            <span class="pill"><strong>${p.piece_id||""}</strong></span>
+            <div style="min-width:240px"><strong>${p.title||"Untitled"}</strong> <span class="muted">${p.composer ? "— "+p.composer : ""}</span></div>
+            <div class="right row">
+              ${p.grade ? `<span class="pill"><strong>Grade</strong> ${p.grade}</span>` : ""}
+              ${p.duration_sec ? `<span class="pill"><strong>Dur</strong> ${durText(p.duration_sec)}</span>` : ""}
+            </div>
+          </div>
+          <div style="margin-top:8px" class="row">
+            ${partsSummary}
+            ${p.pdf_url ? `<span class="pill">${safeLink(p.pdf_url,"PDF")}</span>` : ""}
+            ${p.audio_url ? `<span class="pill">${safeLink(p.audio_url,"Audio")}</span>` : ""}
+            ${p.source ? `<span class="pill"><strong>Source</strong> ${p.source}</span>` : ""}
+          </div>
+          ${tagHtml ? `<div style="margin-top:8px">${tagHtml}</div>` : ""}
+          ${p.notes ? `<div class="muted small" style="margin-top:8px">${p.notes}</div>` : ""}
+        </div>
+      `;
+    }).join("");
+}
+
+function renderEventsAndTasks(){
+  const now = new Date();
+  const upcoming = state.events
+    .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
+    .filter(e => e._start && e._start >= now)
+    .sort((a,b)=>a._start-b._start)
+    .slice(0,40);
+
+  $("eventsList").innerHTML = upcoming.length
+    ? upcoming.map(e=>{
+        return `
+          <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+            <div class="row">
+              <span class="pill"><strong>${(e.type||"event").toUpperCase()}</strong></span>
+              <div><strong>${e.title||"Untitled"}</strong> <span class="muted">(${e.event_id||""})</span></div>
+            </div>
+            <div class="row" style="margin-top:6px">
+              <span class="pill">${fmtWhen(e._start)}</span>
+              <span class="pill"><strong>Venue</strong> ${e.venue||"n/a"}</span>
+              ${e.map_url ? `<span class="pill">${safeLink(e.map_url,"Map")}</span>` : ""}
+            </div>
+          </div>
+        `;
+      }).join("")
+    : `<div class="muted">No upcoming events.</div>`;
+
+  const tasks = state.tasks.slice().sort((a,b)=>(a.due||"").localeCompare(b.due||""));
+  $("tasksList").innerHTML = tasks.length ? `
+    <table>
+      <thead><tr><th>Due</th><th>Task</th><th>Status</th><th>Event</th></tr></thead>
+      <tbody>
+        ${tasks.slice(0,80).map(t=>`
+          <tr>
+            <td>${t.due||""}</td>
+            <td>${t.task||""}</td>
+            <td>${t.status||""}</td>
+            <td class="muted">${t.event_id||""}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+    <div class="muted small" style="margin-top:8px;">Showing ${Math.min(tasks.length,80)} of ${tasks.length}</div>
+  ` : `<div class="muted">No tasks.</div>`;
+}
+
+function renderSets(){
+  if(!state.sets.length){
+    $("setsBox").innerHTML = `<div class="muted">No sets.</div>`;
+    return;
+  }
+  const piecesById = new Map(state.pieces.map(p=>[p.piece_id,p]));
+  const setPiecesBySet = new Map();
+  for(const sp of state.setPieces){
+    const sid = sp.set_id || "";
+    if(!sid) continue;
+    const arr = setPiecesBySet.get(sid) || [];
+    arr.push(sp);
+    setPiecesBySet.set(sid, arr);
+  }
+
+  $("setsBox").innerHTML = state.sets.map(s=>{
+    const sps = (setPiecesBySet.get(s.set_id)||[]).slice()
+      .sort((a,b)=>Number(a.order||9999)-Number(b.order||9999));
+    const items = sps.length ? `
+      <div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
+        ${sps.map(sp=>{
+          const p = piecesById.get(sp.piece_id) || {};
+          return `<div style="padding:6px 0;border-bottom:1px solid var(--border)">
+            <div class="row">
+              <span class="pill"><strong>#${sp.order||""}</strong></span>
+              <div><strong>${p.title || sp.piece_id}</strong> <span class="muted">${p.composer ? "("+p.composer+")" : ""}</span></div>
+              <div class="right muted">${durText(p.duration_sec)}</div>
+            </div>
+            ${sp.performance_notes ? `<div class="muted small" style="margin-top:4px">${sp.performance_notes}</div>` : ""}
+          </div>`;
+        }).join("")}
+      </div>
+    ` : `<div class="muted small" style="margin-top:6px">No SetPieces for this set.</div>`;
+
+    return `
+      <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+        <div class="row">
+          <span class="pill"><strong>${s.set_id||""}</strong></span>
+          <div><strong>${s.name||"Unnamed set"}</strong> <span class="muted">${s.description||""}</span></div>
+        </div>
+        ${s.notes ? `<div class="muted small" style="margin-top:6px">${s.notes}</div>` : ""}
+        ${items}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderCommittee(){
+  $("rolesBox").innerHTML = state.roles.length ? `
+    <table>
+      <thead><tr><th>Role</th><th>Member</th><th>Notes</th></tr></thead>
+      <tbody>
+        ${state.roles.map(r=>{
+          const name = (state.members.find(m=>m.member_id===r.member_id)?.name) || r.member_id || "";
+          return `<tr><td>${r.role||""}</td><td>${name}</td><td class="muted">${r.notes||""}</td></tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+  ` : `<div class="muted">No roles.</div>`;
+
+  $("assetsBox").innerHTML = state.assets.length ? `
+    <table>
+      <thead><tr><th>Asset</th><th>Holder</th><th>Condition</th><th>Last checked</th></tr></thead>
+      <tbody>
+        ${state.assets.map(a=>{
+          const holder = (state.members.find(m=>m.member_id===a.holder_member_id)?.name) || a.holder_member_id || "";
+          return `<tr><td>${a.asset_type||""} — ${a.description||""}</td><td>${holder}</td><td>${a.condition||""}</td><td class="muted">${a.last_checked||""}</td></tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+  ` : `<div class="muted">No assets.</div>`;
+}
+
+// -------- Tabs --------
+function switchTab(name){
+  const tabs=["tonight","library","gigs","sets","committee"];
+  for(const t of tabs){
+    $("tab-"+t).classList.toggle("hidden", t!==name);
+    document.querySelector(`.tabbtn[data-tab="${t}"]`).classList.toggle("active", t===name);
+  }
+  if(name==="library") renderLibrary();
+  if(name==="sets") renderSets();
+  if(name==="committee") renderCommittee();
+}
+
+document.querySelectorAll(".tabbtn").forEach(btn=>{
+  btn.addEventListener("click", ()=>switchTab(btn.dataset.tab));
+});
+$("refreshBtn").addEventListener("click", loadAll);
+$("libSearch").addEventListener("input", renderLibrary);
+$("libGrade").addEventListener("change", renderLibrary);
+$("libMaxDur").addEventListener("change", renderLibrary);
+
+// -------- Load all data --------
+async function loadAll(){
+  setStatus("Loading…");
+  $("sourceWarn").classList.add("hidden");
+
+  try{
+    if(API_URL && API_URL.trim()){
+      // JSON API path
+      const payload = await fetchAllJson();
+      const d = payload.data;
+
+      state.members   = d.Members   || [];
+      state.roles     = d.Roles     || [];
+      state.assets    = d.Assets    || [];
+      state.pieces    = d.Pieces    || [];
+      state.parts     = d.Parts     || [];
+      state.sets      = d.Sets      || [];
+      state.setPieces = d.SetPieces || [];
+      state.events    = d.Events    || [];
+      state.program   = d.Program   || [];
+      state.tasks     = d.Tasks     || [];
+      state.rsvp      = d.RSVP      || [];
+
+      state.lastLoaded = new Date((payload.meta && payload.meta.generatedAt) ? payload.meta.generatedAt : Date.now());
+      state.source = "json";
+    } else {
+      // CSV fallback path
+      $("sourceWarn").classList.remove("hidden");
+
+      const [
+        members, roles, assets,
+        pieces, parts, sets, setPieces,
+        events, program, tasks, rsvp
+      ] = await Promise.all([
+        fetchCsv(TAB.Members),
+        fetchCsv(TAB.Roles),
+        fetchCsv(TAB.Assets),
+
+        fetchCsv(TAB.Pieces),
+        fetchCsv(TAB.Parts),
+        fetchCsv(TAB.Sets),
+        fetchCsv(TAB.SetPieces),
+
+        fetchCsv(TAB.Events),
+        fetchCsv(TAB.Program),
+        fetchCsv(TAB.Tasks),
+        fetchCsv(TAB.RSVP),
+      ]);
+
+      state.members = members; state.roles = roles; state.assets = assets;
+      state.pieces = pieces; state.parts = parts; state.sets = sets; state.setPieces = setPieces;
+      state.events = events; state.program = program; state.tasks = tasks; state.rsvp = rsvp;
+
+      state.lastLoaded = new Date();
+      state.source = "csv";
+    }
+
+    setStatus(`Loaded (${state.source}) — members:${state.members.length} pieces:${state.pieces.length} events:${state.events.length} — ${state.lastLoaded.toLocaleString()}`);
+
+    renderNextEvent();
+    renderLibrary();
+    renderEventsAndTasks();
+    renderSets();
+    renderCommittee();
+  }catch(err){
+    console.error(err);
+    setStatus(`Load failed: ${String(err.message||err)}`);
+    $("nextEventBox").innerHTML = `
+      <div class="warnbox">
+        <strong>Error loading data:</strong> ${String(err.message||err)}
+        <div class="muted small" style="margin-top:8px">
+          If using CSV fallback: set the Google Sheet to <strong>Anyone with the link → Viewer</strong>.
+          <br/>If using JSON: confirm your Apps Script Web App is deployed with access = <strong>Anyone</strong>.
+        </div>
+      </div>
+    `;
+  }
+}
+
+loadAll();
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
