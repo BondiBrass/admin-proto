@@ -8,859 +8,1221 @@
     :root{
       --bg:#f6f7fb; --panel:#ffffff; --muted:#5c6575; --text:#0f1220;
       --border:rgba(0,0,0,.10); --chip:rgba(0,0,0,.06); --link:#0b63ff;
-      --shadow: 0 10px 30px rgba(0,0,0,.10);
-      --shadow2: 0 6px 18px rgba(0,0,0,.06);
       --good:#2ecc71; --warn:#f1c40f; --bad:#e74c3c;
     }
     [data-theme="dark"]{
-      --bg:#0b0c0f; --panel:#11131a; --muted:#9aa3b2; --text:#e7ecf5;
-      --border:rgba(255,255,255,.12); --chip:rgba(255,255,255,.08); --link:#6aa6ff;
-      --shadow: 0 10px 30px rgba(0,0,0,.40);
-      --shadow2: 0 6px 18px rgba(0,0,0,.30);
+      --bg:#0b0c0f; --panel:#11131a; --muted:#9aa3b2; --text:#e7eaf0;
+      --border:rgba(255,255,255,.10); --chip:rgba(255,255,255,.08); --link:#7db7ff;
+      --good:#2ecc71; --warn:#f1c40f; --bad:#e74c3c;
     }
-
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: var(--bg);
-      color: var(--text);
-    }
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text);}
 
     header{
-      position: sticky; top:0; z-index:10;
-      background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,0)) , var(--panel);
-      border-bottom: 1px solid var(--border);
+      position:sticky;top:0;z-index:10;
+      background:rgba(0,0,0,.04);
+      backdrop-filter:blur(10px);
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--border);
     }
-    .headerInner{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 10px 14px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    [data-theme="dark"] header{ background:rgba(0,0,0,.35); }
+
+    .bar{display:flex;gap:10px;align-items:center;justify-content:space-between;}
+    .sub{color:var(--muted);font-size:12px}
+
+    /* Brand (logo + title) */
+    .brand{display:flex;gap:12px;align-items:center;}
+    .logoWrap{
+      display:flex;align-items:center;justify-content:center;
+      width:46px;height:46px;border-radius:12px;
+      background:var(--chip);border:1px solid var(--border);
     }
-    .brand{
-      display:flex; align-items:center; gap:10px; min-width:0;
-    }
-    .brand img{ width:32px; height:32px; object-fit:contain; border-radius:8px; }
-    .brandTitle{
-      display:flex; flex-direction:column; min-width:0;
-    }
-    .brandTitle .t1{
-      font-weight:900; letter-spacing:.2px;
-      line-height:1.1;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    }
-    .brandTitle .t2{
-      color: var(--muted);
-      font-size: 12px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    .logo{width:36px;height:36px;object-fit:contain;}
+    .title{font-weight:900;letter-spacing:.3px;font-size:18px;}
+    .title::after{
+      content:"";
+      display:block;
+      width:60px;
+      height:3px;
+      background:var(--link);
+      border-radius:3px;
+      margin-top:4px;
+      opacity:.9;
     }
 
-    .toolbar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      font-weight: 800;
-      font-size: 12px;
-      text-decoration:none;
-      cursor:pointer;
-      user-select:none;
+    .tabs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+    .tabbtn{
+      border:1px solid var(--border); background:var(--chip); color:var(--text);
+      padding:8px 10px;border-radius:999px;cursor:pointer;font-weight:700;font-size:13px;
     }
-    .btn.primary{
-      background: var(--link);
-      color:#fff;
-      border-color: transparent;
-    }
-    .btn:active{ transform: translateY(1px); }
+    .tabbtn.active{outline:2px solid rgba(11,99,255,.25);}
+    [data-theme="dark"] .tabbtn.active{outline:2px solid rgba(125,183,255,.35);}
 
-    main{
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 14px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 12px;
-    }
-    @media (max-width: 920px){
-      .grid{ grid-template-columns: 1fr; }
-    }
+    main{padding:14px;max-width:1100px;margin:0 auto;}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;}
+    @media (min-width:980px){.grid.cols2{grid-template-columns:1.05fr .95fr;}}
 
     .card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px;
-      box-shadow: var(--shadow2);
+      background:var(--panel); border:1px solid var(--border); border-radius:16px;
+      padding:12px; box-shadow:0 10px 24px rgba(0,0,0,.08);
+    }
+    [data-theme="dark"] .card{ box-shadow:0 12px 30px rgba(0,0,0,.22); }
+    .card h2{margin:0 0 10px;font-size:16px;}
+
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .pill{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);
+      font-size:13px;color:var(--muted);
+    }
+    .pill strong{color:var(--text);font-weight:800;}
+
+    /* pill checkbox */
+    .pillCheck{ gap:8px; cursor:pointer; user-select:none; }
+    .pillCheck input{ margin:0; width:auto; }
+
+    .btn{
+      border:1px solid var(--border);background:transparent;color:var(--text);
+      padding:8px 10px;border-radius:12px;cursor:pointer;font-weight:800;
+    }
+    .btn.primary{background:rgba(11,99,255,.10);border-color:rgba(11,99,255,.25);}
+    [data-theme="dark"] .btn.primary{background:rgba(125,183,255,.18);border-color:rgba(125,183,255,.40);}
+
+    input,select{
+      background:transparent;color:var(--text);border:1px solid var(--border);
+      border-radius:10px;padding:9px 10px;outline:none;width:100%;
+    }
+    .controls{display:grid;grid-template-columns:1fr;gap:10px;}
+    @media (min-width:680px){.controls{grid-template-columns:2fr 1fr 1fr;}}
+
+    table{width:100%;border-collapse:collapse;}
+    th,td{border-bottom:1px solid var(--border);padding:8px 6px;text-align:left;font-size:13px;}
+    th{color:var(--muted);font-weight:900;}
+    a{color:var(--link);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .muted{color:var(--muted);}
+    .small{font-size:12px;}
+    .right{margin-left:auto;}
+    .hidden{display:none;}
+    .tag{
+      display:inline-block;padding:3px 8px;border-radius:999px;border:1px solid var(--border);
+      background:var(--chip);color:var(--muted);font-size:12px;margin:2px 6px 0 0;white-space:nowrap;
+    }
+    .statusDot{width:10px;height:10px;border-radius:999px;display:inline-block;}
+    footer{padding:18px 14px 30px;color:var(--muted);text-align:center;font-size:12px;}
+    code{background:var(--chip);padding:2px 6px;border-radius:8px;border:1px solid var(--border);}
+    .warnbox{
+      margin-top:10px;padding:10px;border-radius:12px;border:1px solid var(--border);
+      background:rgba(241,196,15,.12); color:var(--text);
     }
 
-    .cardHeader{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
+    /* Departures board */
+    .boardWrap{display:flex;flex-direction:column;gap:10px;}
+    .boardHeader{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+    .boardTitle{margin:0;font-size:16px;font-weight:950;}
+    .boardSub{color:var(--muted);font-size:12px;margin-top:2px;}
+    .boardTable{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:var(--panel);
     }
-    .cardTitle{
-      font-weight: 900;
-      font-size: 14px;
-      line-height: 1.2;
-      margin: 0;
+    .boardTable th, .boardTable td{
+      padding:10px 10px;
+      border-bottom:1px solid var(--border);
+      font-size:13px;
+      vertical-align:top;
     }
-    .cardSub{
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--muted);
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
+    .boardTable th{
+      font-weight:950;
+      color:var(--muted);
+      background:rgba(0,0,0,.03);
     }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: var(--chip);
-      border: 1px solid var(--border);
-      font-size: 11px;
-      color: var(--text);
-      white-space: nowrap;
+    [data-theme="dark"] .boardTable th{ background:rgba(255,255,255,.04); }
+    .boardTable tr:last-child td{ border-bottom:0; }
+    .typeChip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid var(--border);background:var(--chip);
+      font-size:12px;font-weight:950;color:var(--text);
+      white-space:nowrap;
     }
-    .actions{
-      margin-top: 10px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .smallNote{
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.35;
+    .typeDot{width:9px;height:9px;border-radius:99px;display:inline-block;}
+    .dotReh{ background: rgba(11,99,255,.95); }
+    .dotGig{ background: rgba(241,196,15,.95); }
+    .dotAny{ background: rgba(46,204,113,.95); }
+    .dotOther{ background: rgba(156,163,175,.95); }
+    .boardMain{font-weight:950;}
+    .boardMetaRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+    .boardEmpty{color:var(--muted);font-size:13px;}
+
+    /* Chart area */
+    #bandActivityChart svg text{ font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial; }
+
+    /* ===== Mobile tightening ===== */
+    @media (max-width:560px){
+      header{ padding:10px 10px 8px; }
+      main{ padding:10px; }
+      .logoWrap{ width:40px;height:40px;border-radius:12px; }
+      .logo{ width:30px;height:30px; }
+      .title{ font-size:16px; }
+      .tabs{ gap:6px; margin-top:8px; }
+      .tabbtn{ padding:7px 10px; font-size:12px; }
+      .card{ padding:10px; border-radius:14px; }
+      .card h2{ font-size:15px; margin-bottom:8px; }
+      .pill{ padding:4px 8px; font-size:12px; gap:6px; }
+      .btn{ padding:7px 10px; border-radius:12px; }
+      .boardTable th, .boardTable td{ padding:8px 8px; font-size:12px; }
+      .typeChip{ padding:5px 9px; font-size:11px; }
+      .optionalPill{ display:none !important; }
+      .boardSub{ display:none; }
     }
 
-    .twoCol{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .muted{ color: var(--muted); }
-    .right{ margin-left:auto; }
-
-    .trackRow{
-      display:flex; gap:10px; padding:8px 0;
-      border-bottom: 1px solid var(--border);
-      align-items:flex-start;
-    }
-    .trackRow:last-child{ border-bottom:none; }
-    .trackMain{ flex:1; min-width:0; }
-    .trackTitle{
-      font-weight: 900;
-      font-size: 13px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    }
-    .trackMeta{
-      margin-top:2px;
-      font-size: 12px;
-      color: var(--muted);
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    }
-    .tagLink{
-      display:inline-flex; align-items:center; gap:6px;
-      padding: 5px 8px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      font-weight: 800;
-      font-size: 12px;
-      text-decoration:none;
-      color: var(--text);
-    }
-
-    /* Toggle (compact) */
-    .toggle{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      font-weight: 800;
-      font-size: 12px;
-      cursor:pointer;
-      user-select:none;
-    }
-    .toggle input{ transform: translateY(1px); }
-
-    /* Graph */
-    .graphWrap{ margin-top: 10px; }
-    .graphLegend{
-      display:flex; gap:8px; flex-wrap:wrap;
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 8px;
-    }
-    .dot{ width:10px; height:10px; border-radius:3px; display:inline-block; border:1px solid var(--border); }
-    .dot.ev{ background: var(--link); border-color: transparent; }
-    .dot.rh{ background: rgba(0,0,0,.15); }
-    [data-theme="dark"] .dot.rh{ background: rgba(255,255,255,.15); }
-
-    footer{
-      max-width:1100px; margin: 0 auto;
-      padding: 10px 14px 24px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align:center;
-    }
-
-    .banner{
-      margin-bottom: 12px;
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
-    .pillNote{
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: var(--chip);
-      border: 1px solid var(--border);
-      font-size: 12px;
-      color: var(--muted);
-    }
+    /* Compact event “hero” block on Tonight */
+    .heroLine{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .heroTitle{ font-weight:950; font-size:15px; }
+    .heroMeta{ color:var(--muted); font-size:12px; }
+    .divider{ height:1px; background:var(--border); margin:10px 0; }
   </style>
 </head>
-
 <body>
 <header>
-  <div class="headerInner">
+  <div class="bar">
     <div class="brand">
-      <!-- Put your logo here -->
-      <img src="./images/bb_gen_logo.png" alt="Bondi Brass" onerror="this.style.display='none'">
-      <div class="brandTitle">
-        <div class="t1">Bondi Brass Admin</div>
-        <div class="t2" id="statusLine">Loading…</div>
+      <div class="logoWrap">
+        <img src="./images/bb_gen_logo.png" class="logo" alt="Bondi Brass logo">
+      </div>
+      <div>
+        <div class="title">Bondi Brass — Admin Proto</div>
+        <div class="sub" id="statusLine">Not loaded</div>
       </div>
     </div>
-
-    <div class="toolbar">
-      <label class="toggle" title="Hide rehearsal-type entries from the next event + main trend">
-        <input id="toggleHideRehearsals" type="checkbox">
-        Hide rehearsals
+    <div class="row">
+      <label class="pill pillCheck" title="Hide rehearsals from board, next-up, and the events chart/list">
+        <input type="checkbox" id="ignoreRehChk">
+        <strong>Ignore rehearsals</strong>
       </label>
-      <button class="btn" id="btnFit">Today</button>
-      <button class="btn" id="btnTheme">Theme</button>
+      <button class="btn" id="themeBtn" title="Toggle theme">Theme</button>
+      <button class="btn primary" id="refreshBtn">Refresh</button>
     </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tabbtn active" data-tab="tonight">Tonight</button>
+    <button class="tabbtn" data-tab="library">Library</button>
+    <button class="tabbtn" data-tab="gigs">Gigs</button>
+    <button class="tabbtn" data-tab="sets">Sets</button>
+    <button class="tabbtn" data-tab="committee">Committee</button>
   </div>
 </header>
 
 <main>
-  <div class="banner">
-    <div class="pillNote" id="dataModePill">Data: …</div>
-    <div class="pillNote" id="countsPill">…</div>
-  </div>
-
-  <div class="grid">
-    <div class="twoCol">
-      <div class="card" id="nextEventBox"></div>
-
-      <div class="card" id="programBox"></div>
-
-      <div class="card" id="graphBox">
-        <div class="cardHeader">
+  <section id="tab-tonight">
+    <div class="card" style="margin-bottom:12px;">
+      <div class="boardWrap">
+        <div class="boardHeader">
           <div>
-            <div class="cardTitle">Upcoming activity (next 30 days)</div>
-            <div class="cardSub" id="graphSub"></div>
-          </div>
-          <div class="chip" id="graphRangeChip">30d</div>
-        </div>
-        <div class="graphWrap">
-          <svg id="graphSvg" width="100%" height="170" viewBox="0 0 640 170" preserveAspectRatio="none"></svg>
-          <div class="graphLegend">
-            <span><span class="dot ev"></span> Events trend (non-rehearsal)</span>
-            <span><span class="dot rh"></span> Rehearsals per day (bars)</span>
+            <h2 class="boardTitle">Upcoming — Board</h2>
+            <div class="boardSub">Next up, next rehearsal, next gig</div>
           </div>
         </div>
+        <div id="departureBoard"></div>
       </div>
     </div>
 
-    <div class="twoCol">
-      <div class="card" id="rsvpBox"></div>
-
-      <div class="card" id="debugBox" style="display:none;">
-        <div class="cardHeader">
-          <div class="cardTitle">Debug</div>
-          <div class="chip">Raw</div>
+    <div class="grid cols2">
+      <div class="card">
+        <h2>Next up</h2>
+        <div id="nextEventBox" class="muted">No upcoming events found.</div>
+        <div style="height:10px"></div>
+        <div class="row">
+          <span class="pill" id="rsvpSummaryPill"><strong>RSVP</strong> n/a</span>
         </div>
-        <pre id="debugPre" class="muted" style="margin:10px 0 0; font-size:12px; white-space:pre-wrap;"></pre>
+
+        <div id="sourceWarn" class="warnbox hidden">
+          <strong>Heads up:</strong> Using CSV fallback (GViz). Set <code>API_URL</code> to your Apps Script Web App
+          for a single fast JSON load.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>RSVP summary (for next event)</h2>
+        <div class="muted small" style="margin-bottom:10px;">
+          Read-only demo. Write-back can be added later (Google Form / Apps Script).
+        </div>
+        <div id="rsvpBox" class="muted">No RSVP data.</div>
       </div>
     </div>
-  </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h2>Program (for next event)</h2>
+      <div id="programBox" class="muted">No program entries.</div>
+    </div>
+  </section>
+
+  <section id="tab-library" class="hidden">
+    <div class="card">
+      <h2>Library</h2>
+      <div class="controls">
+        <div>
+          <label class="small muted">Search</label>
+          <input id="libSearch" placeholder="title / composer / tags…" />
+        </div>
+        <div>
+          <label class="small muted">Grade</label>
+          <select id="libGrade">
+            <option value="">All</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <label class="small muted">Max duration</label>
+          <select id="libMaxDur">
+            <option value="">Any</option>
+            <option value="240">≤ 4 min</option>
+            <option value="360">≤ 6 min</option>
+            <option value="480">≤ 8 min</option>
+            <option value="600">≤ 10 min</option>
+          </select>
+        </div>
+      </div>
+      <div id="libraryResults" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+  <section id="tab-gigs" class="hidden">
+    <div class="grid cols2">
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:flex-end;">
+          <div>
+            <h2 style="margin:0;">Upcoming events</h2>
+            <div class="muted small" id="eventsRangeLabel">Next 3 months</div>
+          </div>
+          <div style="min-width:170px">
+            <label class="small muted" for="eventsRange" style="display:block;margin-bottom:4px;">Range</label>
+            <select id="eventsRange">
+              <option value="1">1 month</option>
+              <option value="3" selected>3 months</option>
+              <option value="6">6 months</option>
+              <option value="12">1 year</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+        <div id="bandActivityChart"></div>
+        <div style="height:10px"></div>
+
+        <div id="eventsList" class="muted">No upcoming events.</div>
+      </div>
+
+      <div class="card">
+        <h2>Tasks</h2>
+        <div id="tasksList" class="muted">No tasks.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tab-sets" class="hidden">
+    <div class="card">
+      <h2>Sets</h2>
+      <div class="muted small" style="margin-bottom:10px;">
+        Sets come from <code>Sets</code> and <code>SetPieces</code>.
+      </div>
+      <div id="setsBox" class="muted">No sets.</div>
+    </div>
+  </section>
+
+  <section id="tab-committee" class="hidden">
+    <div class="grid cols2">
+      <div class="card">
+        <h2>Roles</h2>
+        <div id="rolesBox" class="muted">No roles.</div>
+      </div>
+      <div class="card">
+        <h2>Assets</h2>
+        <div id="assetsBox" class="muted">No assets.</div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer>© Bondi Brass • Admin prototype</footer>
+<footer>
+  Bondi Brass admin-proto — reads from one Google Sheet (recommended: one JSON API via Apps Script).
+</footer>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
 <script>
-/* =========================
-   CONFIG
-   ========================= */
+/**
+ * =========================
+ * 1) CONFIG: JSON API (best)
+ * =========================
+ */
+const API_URL = ""; // <-- paste Apps Script Web App URL (ends in /exec) to use JSON
 
-// If you have an Apps Script Web App that returns JSON, put it here.
-// If empty, we use GViz per-tab fallback.
-const API_URL = "";
+/**
+ * =========================
+ * 2) CSV fallback (GViz)
+ * =========================
+ */
+const SHEET_ID = "16UcJK2d3zjVJ_nNgHg7aGn8Kh_1l4F4_wHQb8uBZGgg";
+const GVIZ_BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
 
-// GViz fallback needs SHEET_ID and tab gids.
-const SHEET_ID = ""; // e.g. "16UcJK2...." from /d/<ID>/edit
-
-// Set these to your worksheet gids (from #gid=... in the URL)
-const GID_EVENTS  = 0;
-const GID_PROGRAM = 0;
-const GID_PIECES  = 0;
-const GID_RSVP    = 0;
-// (Members not needed for this view)
-const USE_DEBUG_PANEL = false;
-
-
-/* =========================
-   STATE
-   ========================= */
-const state = {
-  events: [],
-  program: [],
-  pieces: [],
-  rsvp: []
+const TAB = {
+  Members: "Members",
+  Roles: "Roles",
+  Assets: "Assets",
+  Pieces: "Pieces",
+  Parts: "Parts",
+  Sets: "Sets",
+  SetPieces: "SetPieces",
+  Events: "Events",
+  Program: "Program",
+  Tasks: "Tasks",
+  RSVP: "RSVP",
 };
 
+const state = {
+  members: [], roles: [], assets: [],
+  pieces: [], parts: [], sets: [], setPieces: [],
+  events: [], program: [], tasks: [], rsvp: [],
+  lastLoaded: null,
+  source: "unknown",
+  ignoreRehearsals: false
+};
 
-/* =========================
-   HELPERS
-   ========================= */
-const $ = (id)=>document.getElementById(id);
+function $(id){ return document.getElementById(id); }
+function setStatus(msg){ $("statusLine").textContent = msg; }
 
-function setTheme(next){
-  const root = document.documentElement;
-  root.setAttribute("data-theme", next);
+// -------- Ignore rehearsals toggle (localStorage) --------
+(function initIgnoreReh(){
+  const saved = localStorage.getItem("bb_ignore_rehearsals");
+  state.ignoreRehearsals = (saved === "1");
+  $("ignoreRehChk").checked = state.ignoreRehearsals;
+})();
+$("ignoreRehChk").addEventListener("change", ()=>{
+  state.ignoreRehearsals = $("ignoreRehChk").checked;
+  localStorage.setItem("bb_ignore_rehearsals", state.ignoreRehearsals ? "1" : "0");
+  // re-render anything event-based
+  renderNextEvent();
+  renderDepartureBoard();
+  if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
+});
+
+// -------- Theme (localStorage) --------
+(function initTheme(){
+  const saved = localStorage.getItem("bb_theme") || "light";
+  document.documentElement.dataset.theme = saved;
+})();
+$("themeBtn").addEventListener("click", ()=>{
+  const cur = document.documentElement.dataset.theme || "light";
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
   localStorage.setItem("bb_theme", next);
-}
-function toggleTheme(){
-  const cur = document.documentElement.getAttribute("data-theme") || "light";
-  setTheme(cur === "light" ? "dark" : "light");
+  if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
+});
+
+// -------- CSV parser (minimal, handles quotes) --------
+function parseCsv(text){
+  const rows=[]; let i=0, field="", row=[], inQuotes=false;
+  const pushField=()=>{ row.push(field); field=""; };
+  const pushRow=()=>{ rows.push(row); row=[]; };
+
+  while(i<text.length){
+    const c=text[i];
+    if(inQuotes){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field += '"'; i+=2; continue; }
+        inQuotes=false; i++; continue;
+      }
+      field += c; i++; continue;
+    }else{
+      if(c === '"'){ inQuotes=true; i++; continue; }
+      if(c === ","){ pushField(); i++; continue; }
+      if(c === "\r"){ i++; continue; }
+      if(c === "\n"){ pushField(); pushRow(); i++; continue; }
+      field += c; i++; continue;
+    }
+  }
+  pushField();
+  if(row.length>1 || (row.length===1 && row[0]!== "")) pushRow();
+  if(!rows.length) return [];
+  const headers = rows[0].map(h => h.trim());
+  const out=[];
+  for(let r=1;r<rows.length;r++){
+    const obj={};
+    for(let c=0;c<headers.length;c++) obj[headers[c]] = (rows[r][c] ?? "").trim();
+    out.push(obj);
+  }
+  return out;
 }
 
-function safeText(s){ return (s==null) ? "" : String(s); }
-function safeLink(url, text){
-  const u = safeText(url).trim();
-  if(!u) return "";
-  const t = safeText(text || "Link");
-  return `<a class="tagLink" href="${escapeAttr(u)}" target="_blank" rel="noopener">${escapeHtml(t)}</a>`;
-}
-function escapeHtml(s){
-  return safeText(s)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#39;");
-}
-function escapeAttr(s){
-  return escapeHtml(s).replaceAll("`","&#96;");
+async function fetchCsv(tabName){
+  const url = GVIZ_BASE + encodeURIComponent(tabName);
+  const res = await fetch(url, { cache:"no-store" });
+  if(!res.ok) throw new Error(`Fetch failed (${res.status}) for ${tabName}`);
+  const text = await res.text();
+  if (text.includes("<html") && text.toLowerCase().includes("accounts.google.com")) {
+    throw new Error("Sheet access blocked (login page). Set sharing to 'Anyone with link: Viewer'.");
+  }
+  return parseCsv(text);
 }
 
-function toDate(s){
-  // expects "YYYY-MM-DD HH:MM:SS" (local)
-  if(!s) return null;
-  const str = String(s).trim();
-  const iso = str.includes("T") ? str : str.replace(" ", "T");
-  const d = new Date(iso);
-  return isNaN(d.getTime()) ? null : d;
+async function fetchAllJson(){
+  const res = await fetch(API_URL, { cache:"no-store" });
+  if(!res.ok) throw new Error(`API failed (${res.status})`);
+  const j = await res.json();
+  if(!j || !j.data) throw new Error("API returned unexpected JSON (expected { meta, data }).");
+  return j;
 }
 
-function pad2(n){ return String(n).padStart(2,"0"); }
-function fmtWhen(d){
-  if(!(d instanceof Date)) return "n/a";
-  return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-}
-function fmtNice(d){
-  if(!(d instanceof Date)) return "n/a";
-  const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-  return `${days[d.getDay()]} ${pad2(d.getDate())} ${d.toLocaleString(undefined,{month:"short"})} • ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-}
-function durText(sec){
-  const n = Number(sec||0);
-  if(!n || n < 1) return "";
-  const m = Math.round(n/60);
-  return `${m}m`;
-}
-
-function isRehearsal(ev){
-  return String(ev?.type || "").toLowerCase() === "rehearsal";
-}
-function hideRehearsalsEnabled(){
-  return !!$("toggleHideRehearsals")?.checked;
-}
-
-function dayKey(d){
-  const y = d.getFullYear();
-  const m = pad2(d.getMonth()+1);
-  const da = pad2(d.getDate());
-  return `${y}-${m}-${da}`;
-}
-function addDays(d, n){
+// -------- Helpers --------
+function addMonths(d, n){
   const x = new Date(d.getTime());
-  x.setDate(x.getDate()+n);
+  x.setMonth(x.getMonth() + n);
   return x;
 }
 
-
-/* =========================
-   DATA LOADING
-   ========================= */
-async function fetchGVizTab(gid){
-  if(!SHEET_ID) throw new Error("SHEET_ID not set (GViz fallback needs it).");
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${gid}&tqx=out:json`;
-  const text = await fetch(url).then(r=>{
-    if(!r.ok) throw new Error(`GViz fetch failed ${r.status} ${r.statusText}`);
-    return r.text();
-  });
-  const jsonText = text.substring(text.indexOf("{"), text.lastIndexOf("}")+1);
-  const gviz = JSON.parse(jsonText);
-  const cols = (gviz.table?.cols || []).map(c => (c.label || "").trim());
-  const rows = (gviz.table?.rows || []).map(r=>{
-    const obj = {};
-    cols.forEach((h,i)=>{
-      const cell = r.c[i];
-      obj[h] = cell ? (cell.f ?? cell.v) : "";
-    });
-    return obj;
-  });
-  return rows;
+function normalizeEventDate(s){
+  if(!s) return null;
+  let t = String(s).trim().replace(/\s+/g," ").replace("T"," ");
+  if(/^\d{4}-\d{2}-\d{2}$/.test(t)) t += " 00:00:00";
+  if(/^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}$/.test(t)) t += ":00";
+  t = t.replace(/^(\d{4}-\d{2}-\d{2}) (\d{1,2}):/, (_,a,h)=> `${a} ${String(h).padStart(2,"0")}:`);
+  const d = new Date(t.replace(" ","T"));
+  return isNaN(+d) ? null : d;
 }
 
-async function loadData(){
-  const started = new Date();
+function toDate(s){ return normalizeEventDate(s); }
 
-  // API mode
-  if(API_URL && API_URL.trim()){
-    $("dataModePill").textContent = "Data: API_URL (single JSON load)";
-    const j = await fetch(API_URL).then(r=>{
-      if(!r.ok) throw new Error(`API fetch failed ${r.status} ${r.statusText}`);
-      return r.json();
-    });
+function fmtWhen(d){
+  if(!d) return "n/a";
+  return d.toLocaleString(undefined,{weekday:"short",year:"numeric",month:"short",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+}
+function durText(sec){
+  const n=Number(sec);
+  if(!isFinite(n) || n<=0) return "";
+  const m=Math.floor(n/60), s=n%60;
+  return `${m}:${String(s).padStart(2,"0")}`;
+}
+function safeLink(url,label){
+  const u=(url||"").trim();
+  if(!u) return "";
+  return `<a href="${u}" target="_blank" rel="noopener">${label||"link"}</a>`;
+}
 
-    // Support either {data:{TabName:[...]}} or direct {TabName:[...]}
-    const blob = j.data ? j.data : j;
+function isRehearsal(e){
+  return String(e.type||"").toLowerCase() === "rehearsal";
+}
+function isGig(e){
+  return String(e.type||"").toLowerCase() === "gig";
+}
+function filteredEvents(arr){
+  const list = Array.isArray(arr) ? arr : state.events;
+  return state.ignoreRehearsals ? list.filter(e => !isRehearsal(e)) : list;
+}
 
-    state.events  = blob.Events  || blob.events  || blob.EVENTS  || [];
-    state.program = blob.Program || blob.program || blob.PROGRAM || [];
-    state.pieces  = blob.Pieces  || blob.pieces  || blob.PIECES  || [];
-    state.rsvp    = blob.RSVP    || blob.rsvp    || blob.Rsvp    || [];
+// -------- Departures board --------
+function dotClassForType(t){
+  t = String(t||"").toLowerCase();
+  if(t === "rehearsal") return "dotReh";
+  if(t === "gig") return "dotGig";
+  if(t === "next up") return "dotAny";
+  return "dotOther";
+}
 
-  } else {
-    $("dataModePill").textContent = "Data: GViz fallback (per-tab)";
-    // If your tabs are named differently, it doesn't matter here because we pull by gid.
-    const [events, program, pieces, rsvp] = await Promise.all([
-      fetchGVizTab(GID_EVENTS),
-      fetchGVizTab(GID_PROGRAM),
-      fetchGVizTab(GID_PIECES),
-      fetchGVizTab(GID_RSVP)
-    ]);
-    state.events = events;
-    state.program = program;
-    state.pieces = pieces;
-    state.rsvp = rsvp;
+function nextEvent(predicate){
+  const now = new Date();
+  return filteredEvents(state.events)
+    .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
+    .filter(e => e._start && e._start >= now)
+    .filter(predicate || (()=>true))
+    .sort((a,b)=>a._start-b._start)[0] || null;
+}
+
+function rowHTML(label, ev){
+  if(!ev){
+    return `
+      <tr>
+        <td><span class="typeChip"><span class="typeDot ${dotClassForType(label)}"></span>${label}</span></td>
+        <td class="boardEmpty">No upcoming ${label.toLowerCase()}.</td>
+        <td class="muted">—</td>
+      </tr>
+    `;
   }
 
-  const ms = new Date() - started;
-  $("statusLine").textContent = `Loaded ${state.events.length} events • ${state.program.length} program • ${state.pieces.length} pieces • ${state.rsvp.length} rsvp • ${ms}ms`;
-  $("countsPill").textContent = `Events: ${state.events.length} • Program: ${state.program.length} • Pieces: ${state.pieces.length}`;
+  const when = ev._start ? fmtWhen(ev._start) : "n/a";
+  const venue = ev.venue || "n/a";
+  const uniform = ev.uniform || "n/a";
+  const map = ev.map_url ? safeLink(ev.map_url, "Map") : "";
+  const notes = (ev.notes||"").trim();
 
-  if(USE_DEBUG_PANEL){
-    $("debugBox").style.display = "";
-    $("debugPre").textContent = JSON.stringify(state, null, 2);
-  }
+  return `
+    <tr>
+      <td>
+        <span class="typeChip">
+          <span class="typeDot ${dotClassForType(String(ev.type||label))}"></span>
+          ${label}
+        </span>
+      </td>
+      <td>
+        <div class="boardMain">${ev.title || "Untitled"}</div>
+        <div class="boardMetaRow">
+          <span class="pill"><strong>When</strong> ${when}</span>
+          <span class="pill"><strong>Venue</strong> ${venue}</span>
+          <span class="pill optionalPill"><strong>Uniform</strong> ${uniform}</span>
+          ${map ? `<span class="pill optionalPill">${map}</span>` : ""}
+        </div>
+        ${notes ? `<div class="muted small" style="margin-top:6px">${notes}</div>` : ""}
+      </td>
+      <td class="muted">${ev.event_id || ""}</td>
+    </tr>
+  `;
 }
 
+function renderDepartureBoard(){
+  const nextUp = nextEvent();
+  // If rehearsals are ignored, the “Rehearsal” row becomes a simple “—” message.
+  const nextReh = state.ignoreRehearsals ? null : nextEvent(e => isRehearsal(e));
+  const nextGig = nextEvent(e => isGig(e));
 
-/* =========================
-   RENDERING
-   ========================= */
-function renderAll(){
-  renderNextEvent();
-  renderProgramForNextEvent();
-  renderRSVP();
-  renderGraph();
+  $("departureBoard").innerHTML = `
+    <table class="boardTable">
+      <thead>
+        <tr>
+          <th style="width:140px;">Board</th>
+          <th>Details</th>
+          <th style="width:120px;">Event ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rowHTML("Next up", nextUp)}
+        ${state.ignoreRehearsals ? `
+          <tr>
+            <td><span class="typeChip"><span class="typeDot ${dotClassForType("rehearsal")}"></span>Rehearsal</span></td>
+            <td class="boardEmpty">Rehearsals hidden.</td>
+            <td class="muted">—</td>
+          </tr>
+        ` : rowHTML("Rehearsal", nextReh)}
+        ${rowHTML("Gig", nextGig)}
+      </tbody>
+    </table>
+  `;
 }
 
+// -------- Rendering (Tonight) --------
 function renderNextEvent(){
   const now = new Date();
-  const hideRehearsals = hideRehearsalsEnabled();
-
-  const upcoming = state.events
-    .map(e => ({...e, _start: toDate(e.start), _end: toDate(e.end)}))
+  const upcoming = filteredEvents(state.events)
+    .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
     .filter(e => e._start && e._start >= now)
-    .filter(e => !(hideRehearsals && isRehearsal(e)))
     .sort((a,b)=>a._start-b._start);
 
   if(!upcoming.length){
-    $("nextEventBox").innerHTML = `
-      <div class="cardHeader">
-        <div>
-          <div class="cardTitle">Next engagement</div>
-          <div class="cardSub"><span class="chip">None found</span></div>
-        </div>
-        <span class="chip">n/a</span>
-      </div>
-      <div class="smallNote">No upcoming events match the current filter.</div>
-    `;
+    $("nextEventBox").innerHTML = `<div class="muted">No upcoming events found.</div>`;
+    $("programBox").innerHTML = `<div class="muted">No program entries.</div>`;
+    $("rsvpBox").innerHTML = `<div class="muted">No RSVP data.</div>`;
+    $("rsvpSummaryPill").innerHTML = `<strong>RSVP</strong> n/a`;
     return;
   }
 
   const ev = upcoming[0];
-  state._nextEvent = ev; // stash for program render
-
-  const typeChip = `<span class="chip">${(ev.type||"event").toUpperCase()}</span>`;
-  const whenChip = `<span class="chip">${fmtNice(ev._start)} – ${pad2(ev._end.getHours())}:${pad2(ev._end.getMinutes())}</span>`;
-  const venueChip = ev.venue ? `<span class="chip">${escapeHtml(ev.venue)}</span>` : "";
-  const uniformChip = ev.uniform ? `<span class="chip">${escapeHtml(ev.uniform)}</span>` : "";
+  const type = (ev.type||"event").toUpperCase();
+  const title = ev.title||"Untitled";
+  const when = `${fmtWhen(ev._start)} → ${fmtWhen(ev._end)}`;
+  const venue = ev.venue||"n/a";
+  const uniform = ev.uniform||"n/a";
 
   $("nextEventBox").innerHTML = `
-    <div class="cardHeader">
-      <div style="min-width:0">
-        <div class="cardTitle">${escapeHtml(ev.title || "Untitled")}</div>
-        <div class="cardSub">
-          ${typeChip}
-          ${whenChip}
-          ${venueChip}
-        </div>
-      </div>
-      ${uniformChip}
+    <div class="heroLine">
+      <span class="pill"><strong>${type}</strong></span>
+      <div class="heroTitle">${title}</div>
     </div>
-
-    <div class="actions">
-      ${ev.map_url ? `<a class="btn" href="${escapeAttr(ev.map_url)}" target="_blank" rel="noopener">Map</a>` : ``}
-      <button class="btn primary" onclick="jumpToRSVP()">RSVP</button>
-      <button class="btn" onclick="copyEventId('${escapeAttr(ev.event_id||"")}')">Copy ID</button>
+    <div class="heroMeta" style="margin-top:6px">${when}</div>
+    <div class="divider"></div>
+    <div class="row">
+      <span class="pill"><strong>Venue</strong> ${venue}</span>
+      <span class="pill optionalPill"><strong>Uniform</strong> ${uniform}</span>
+      ${ev.map_url ? `<span class="pill optionalPill">${safeLink(ev.map_url,"Map")}</span>` : ""}
     </div>
-
-    ${ev.notes ? `<div class="smallNote">${escapeHtml(ev.notes)}</div>` : ``}
+    ${ev.notes ? `<div style="margin-top:8px" class="muted small">${ev.notes}</div>` : ""}
   `;
-}
 
-function renderProgramForNextEvent(){
-  const ev = state._nextEvent;
-  if(!ev){
-    $("programBox").innerHTML = `
-      <div class="cardHeader">
-        <div class="cardTitle">Program</div>
-        <div class="chip">n/a</div>
-      </div>
-      <div class="smallNote">No next event selected.</div>
-    `;
-    return;
-  }
-
+  // Program
   const prog = state.program
     .filter(p => (p.event_id||"") === (ev.event_id||""))
     .sort((a,b)=>Number(a.order||9999)-Number(b.order||9999));
 
   const piecesById = new Map(state.pieces.map(p => [p.piece_id, p]));
-
   if(!prog.length){
-    $("programBox").innerHTML = `
-      <div class="cardHeader">
-        <div>
-          <div class="cardTitle">Program</div>
-          <div class="cardSub"><span class="chip">${escapeHtml(ev.event_id||"")}</span></div>
-        </div>
-        <div class="chip">0 items</div>
-      </div>
-      <div class="smallNote">No program entries for this event.</div>
-    `;
-    return;
-  }
-
-  $("programBox").innerHTML = `
-    <div class="cardHeader">
-      <div>
-        <div class="cardTitle">Program</div>
-        <div class="cardSub">
-          <span class="chip">${escapeHtml(ev.event_id||"")}</span>
-        </div>
-      </div>
-      <div class="chip">${prog.length} items</div>
-    </div>
-    <div style="margin-top:8px">
-      ${prog.map(p=>{
-        const piece = piecesById.get(p.piece_id) || {};
-        const title = piece.title || p.piece_id || "Unknown";
-        const composer = piece.composer ? piece.composer : "";
-        const pdf = piece.pdf_url ? safeLink(piece.pdf_url, "PDF") : "";
-        const aud = piece.audio_url ? safeLink(piece.audio_url, "Audio") : "";
-        return `
-          <div class="trackRow">
-            <div class="chip" style="min-width:46px; justify-content:center;">#${escapeHtml(p.order||"")}</div>
-            <div class="trackMain">
-              <div class="trackTitle">${escapeHtml(title)}</div>
-              <div class="trackMeta">${composer ? escapeHtml(composer) : "&nbsp;"}</div>
-              <div style="margin-top:6px; display:flex; gap:8px; flex-wrap:wrap;">${pdf} ${aud}</div>
-              ${(p.performance_notes || p.mc_notes) ? `
-                <div class="smallNote" style="margin-top:8px">
-                  ${p.performance_notes ? `<div>${escapeHtml(p.performance_notes)}</div>` : ``}
-                  ${p.mc_notes ? `<div><strong>MC:</strong> ${escapeHtml(p.mc_notes)}</div>` : ``}
-                </div>` : ``}
-            </div>
-            <div class="trackMeta" style="white-space:nowrap">${durText(piece.duration_sec)}</div>
+    $("programBox").innerHTML = `<div class="muted">No program entries for <strong>${ev.event_id}</strong>.</div>`;
+  }else{
+    $("programBox").innerHTML = prog.map(p=>{
+      const piece = piecesById.get(p.piece_id) || {};
+      const ptitle = piece.title || p.piece_id || "Unknown";
+      const composer = piece.composer ? ` <span class="muted">(${piece.composer})</span>` : "";
+      const pdf = piece.pdf_url ? `<span class="tag">${safeLink(piece.pdf_url,"PDF")}</span>` : "";
+      const aud = piece.audio_url ? `<span class="tag">${safeLink(piece.audio_url,"Audio")}</span>` : "";
+      return `
+        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div class="row">
+            <span class="pill"><strong>#${p.order||""}</strong></span>
+            <div><strong>${ptitle}</strong>${composer}</div>
+            <div class="right muted">${durText(piece.duration_sec)}</div>
           </div>
-        `;
-      }).join("")}
-    </div>
-  `;
+          <div style="margin-top:6px">${pdf} ${aud}</div>
+          ${p.performance_notes ? `<div class="muted small" style="margin-top:6px">${p.performance_notes}</div>` : ""}
+          ${p.mc_notes ? `<div class="muted small" style="margin-top:6px"><strong>MC:</strong> ${p.mc_notes}</div>` : ""}
+        </div>
+      `;
+    }).join("");
+  }
+
+  // RSVP
+  const rsvpRows = state.rsvp.filter(r => (r.event_id||"") === (ev.event_id||""));
+  if(!rsvpRows.length){
+    $("rsvpBox").innerHTML = `<div class="muted">No RSVP rows for <strong>${ev.event_id}</strong>.</div>`;
+    $("rsvpSummaryPill").innerHTML = `<strong>RSVP</strong> n/a`;
+  }else{
+    const counts = {Y:0,M:0,N:0,other:0};
+    for(const r of rsvpRows){
+      const v = (r.response||"").toUpperCase();
+      if(v==="Y"||v==="YES") counts.Y++;
+      else if(v==="M"||v==="MAYBE") counts.M++;
+      else if(v==="N"||v==="NO") counts.N++;
+      else counts.other++;
+    }
+    $("rsvpSummaryPill").innerHTML = `<strong>RSVP</strong> Y:${counts.Y} M:${counts.M} N:${counts.N}`;
+    $("rsvpBox").innerHTML = `
+      <div class="row" style="margin-bottom:10px">
+        <span class="pill"><span class="statusDot" style="background:var(--good)"></span> <strong>Yes</strong> ${counts.Y}</span>
+        <span class="pill"><span class="statusDot" style="background:var(--warn)"></span> <strong>Maybe</strong> ${counts.M}</span>
+        <span class="pill"><span class="statusDot" style="background:var(--bad)"></span> <strong>No</strong> ${counts.N}</span>
+      </div>
+      <table>
+        <thead><tr><th>Member</th><th>Resp</th><th>When</th><th>Comment</th></tr></thead>
+        <tbody>
+          ${rsvpRows.slice(0,40).map(r=>{
+            const name = (state.members.find(m=>m.member_id===r.member_id)?.name) || r.member_id || "";
+            return `<tr><td>${name}</td><td>${r.response||""}</td><td class="muted">${r.timestamp||""}</td><td class="muted">${r.comment||""}</td></tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+      <div class="muted small" style="margin-top:8px;">Showing ${Math.min(rsvpRows.length,40)} of ${rsvpRows.length}</div>
+    `;
+  }
 }
 
-function renderRSVP(){
-  // This is a light placeholder: show counts for the next event.
-  const ev = state._nextEvent;
-  if(!ev){
-    $("rsvpBox").innerHTML = `
-      <div class="cardHeader">
-        <div class="cardTitle">RSVP</div>
-        <div class="chip">n/a</div>
-      </div>
-      <div class="smallNote">No next event selected.</div>
-    `;
+function renderLibrary(){
+  const q = ($("libSearch").value||"").trim().toLowerCase();
+  const grade = ($("libGrade").value||"").trim();
+  const maxDur = Number($("libMaxDur").value||0);
+
+  const partMap = new Map();
+  for(const prt of state.parts){
+    const pid = prt.piece_id || "";
+    if(!pid) continue;
+    const arr = partMap.get(pid) || [];
+    arr.push(prt);
+    partMap.set(pid, arr);
+  }
+
+  let list = state.pieces.slice();
+  if(grade) list = list.filter(p => String(p.grade||"").trim() === grade);
+  if(maxDur) list = list.filter(p => Number(p.duration_sec||0)>0 ? Number(p.duration_sec)<=maxDur : true);
+
+  if(q){
+    list = list.filter(p=>{
+      const hay=[p.piece_id,p.title,p.composer,p.arranger,p.style_tags,p.notes].filter(Boolean).join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  list.sort((a,b)=>(a.title||"").localeCompare(b.title||""));
+
+  if(!list.length){
+    $("libraryResults").innerHTML = `<div class="muted">No matches.</div>`;
     return;
   }
 
-  const rows = state.rsvp.filter(r => (r.event_id||"") === (ev.event_id||""));
-  const norm = (v)=>String(v||"").toLowerCase().trim();
-  const yes = rows.filter(r => norm(r.response) === "yes").length;
-  const no  = rows.filter(r => norm(r.response) === "no").length;
-  const maybe = rows.filter(r => norm(r.response) === "maybe").length;
-  const total = rows.length;
+  $("libraryResults").innerHTML =
+    `<div class="muted small">Showing ${Math.min(list.length,250)} of ${list.length}</div>` +
+    list.slice(0,250).map(p=>{
+      const tags=(p.style_tags||"").split(/[;|,]/).map(t=>t.trim()).filter(Boolean).slice(0,8);
+      const tagHtml=tags.map(t=>`<span class="tag">${t}</span>`).join("");
 
-  $("rsvpBox").innerHTML = `
-    <div class="cardHeader">
-      <div>
-        <div class="cardTitle">RSVP</div>
-        <div class="cardSub">
-          <span class="chip">${escapeHtml(ev.event_id||"")}</span>
-          <span class="chip">${escapeHtml(ev.title||"")}</span>
+      const prts = partMap.get(p.piece_id) || [];
+      const missing = prts.filter(x => String(x.is_missing||"").toLowerCase()==="true" || String(x.is_missing||"")==="1" || String(x.is_missing||"").toLowerCase()==="yes");
+      const partsSummary = prts.length
+        ? (missing.length
+          ? `<span class="pill"><span class="statusDot" style="background:var(--warn)"></span> <strong>Parts</strong> ${missing.length} missing</span>`
+          : `<span class="pill"><span class="statusDot" style="background:var(--good)"></span> <strong>Parts</strong> OK</span>`)
+        : `<span class="pill"><span class="statusDot" style="background:var(--muted)"></span> <strong>Parts</strong> n/a</span>`;
+
+      return `
+        <div class="card" style="margin-top:10px;">
+          <div class="row">
+            <span class="pill"><strong>${p.piece_id||""}</strong></span>
+            <div style="min-width:240px"><strong>${p.title||"Untitled"}</strong> <span class="muted">${p.composer ? "— "+p.composer : ""}</span></div>
+            <div class="right row">
+              ${p.grade ? `<span class="pill"><strong>Grade</strong> ${p.grade}</span>` : ""}
+              ${p.duration_sec ? `<span class="pill"><strong>Dur</strong> ${durText(p.duration_sec)}</span>` : ""}
+            </div>
+          </div>
+          <div style="margin-top:8px" class="row">
+            ${partsSummary}
+            ${p.pdf_url ? `<span class="pill">${safeLink(p.pdf_url,"PDF")}</span>` : ""}
+            ${p.audio_url ? `<span class="pill">${safeLink(p.audio_url,"Audio")}</span>` : ""}
+            ${p.source ? `<span class="pill"><strong>Source</strong> ${p.source}</span>` : ""}
+          </div>
+          ${tagHtml ? `<div style="margin-top:8px">${tagHtml}</div>` : ""}
+          ${p.notes ? `<div class="muted small" style="margin-top:8px">${p.notes}</div>` : ""}
         </div>
-      </div>
-      <div class="chip">${total} responses</div>
-    </div>
-
-    <div class="actions">
-      <span class="chip">Yes: <strong>${yes}</strong></span>
-      <span class="chip">Maybe: <strong>${maybe}</strong></span>
-      <span class="chip">No: <strong>${no}</strong></span>
-    </div>
-
-    <div class="smallNote">Hook this to your RSVP form when you’re ready. For now it’s a summary off the RSVP tab.</div>
-  `;
+      `;
+    }).join("");
 }
 
-function renderGraph(){
-  const svg = $("graphSvg");
-  const sub = $("graphSub");
-  const hideRehearsals = hideRehearsalsEnabled();
+/**
+ * ===== NEW CHART =====
+ * “Gigs show up as a bar on the day”
+ *
+ * We render a simple time axis (days) and draw horizontal bars per event from start→end.
+ * Lanes: Gig / Rehearsal / Other. If “Ignore rehearsals” is on, rehearsal lane is removed.
+ */
+function renderBandActivityChart(events, monthsAhead){
+  const host = $("bandActivityChart");
+  if(!host) return;
+  host.innerHTML = "";
 
   const now = new Date();
-  const days = [];
-  for(let i=0;i<30;i++){
-    const d = addDays(new Date(now.getFullYear(), now.getMonth(), now.getDate()), i);
-    days.push(d);
+  const limit = addMonths(now, monthsAhead);
+
+  const raw = (events||[])
+    .map(e => {
+      const start = toDate(e.start);
+      if(!start) return null;
+      const end = toDate(e.end) || new Date(+start + 2*60*60*1000); // fallback 2h
+      if(start < now || start > limit) return null;
+      const type = String(e.type||"other").toLowerCase();
+      return { ...e, _start:start, _end:end, _type:type };
+    })
+    .filter(Boolean);
+
+  const rows = filteredEvents(raw);
+  if(!rows.length){
+    host.innerHTML = `<div class="muted small">No activity in selected range.</div>`;
+    return;
   }
 
-  // build counts
-  const eventCounts = new Map(); // non-rehearsal events per day
-  const reheCounts = new Map();  // rehearsals per day (only if not hidden)
+  // lanes (keep stable order)
+  let lanes = [
+    { key:"gig", label:"Gig" },
+    { key:"rehearsal", label:"Rehearsal" },
+    { key:"other", label:"Other" }
+  ];
+  if(state.ignoreRehearsals) lanes = lanes.filter(l => l.key !== "rehearsal");
 
-  for(const ev of state.events){
-    const s = toDate(ev.start);
-    if(!s) continue;
-    const k = dayKey(s);
-    if(isRehearsal(ev)){
-      if(!hideRehearsals){
-        reheCounts.set(k, (reheCounts.get(k)||0) + 1);
-      }
+  const laneIndex = new Map(lanes.map((l,i)=>[l.key,i]));
+  const laneFor = (t) => (t==="gig" ? "gig" : (t==="rehearsal" ? "rehearsal" : "other"));
+
+  const data = rows.map(e => ({
+    ...e,
+    lane: laneFor(e._type),
+    laneI: laneIndex.get(laneFor(e._type)) ?? laneIndex.get("other") ?? 0
+  })).filter(d => laneIndex.has(d.lane));
+
+  const minT = d3.min(data, d => d._start);
+  const maxT = d3.max(data, d => d._end);
+  // Pad to day boundaries so bars sit nicely "on the day"
+  const startDay = d3.timeDay.floor(minT);
+  const endDay = d3.timeDay.ceil(maxT);
+
+  const W = Math.max(520, host.clientWidth || 760);
+  const laneH = 30;
+  const H = 64 + lanes.length * laneH;
+  const margin = { top: 22, right: 14, bottom: 28, left: 92 };
+
+  const x = d3.scaleTime()
+    .domain([startDay, endDay])
+    .range([margin.left, W - margin.right]);
+
+  const y = (i) => margin.top + i*laneH;
+
+  // Colours: gigs = warn (yellow), rehearsal = link (blue), other = muted grey
+  const css = getComputedStyle(document.documentElement);
+  const cGig = css.getPropertyValue("--warn").trim() || "#f1c40f";
+  const cReh = css.getPropertyValue("--link").trim() || "#0b63ff";
+  const cOther = css.getPropertyValue("--muted").trim() || "#5c6575";
+
+  const color = (lane) => lane==="gig" ? cGig : (lane==="rehearsal" ? cReh : cOther);
+
+  const svg = d3.select(host)
+    .append("svg")
+    .attr("viewBox", `0 0 ${W} ${H}`)
+    .style("max-width","100%")
+    .style("height","auto");
+
+  // x axis (days)
+  const axis = d3.axisBottom(x)
+    .ticks(Math.min(10, Math.max(5, Math.floor(W/120))))
+    .tickFormat(d3.timeFormat("%d %b"));
+
+  svg.append("g")
+    .attr("transform", `translate(0,${H - margin.bottom})`)
+    .call(axis)
+    .call(g => g.selectAll("text").style("font-weight",800).style("fill","currentColor"));
+
+  // vertical day grid
+  const dayTicks = d3.timeDays(startDay, endDay);
+  svg.append("g")
+    .selectAll("line.day")
+    .data(dayTicks)
+    .join("line")
+      .attr("x1", d=>x(d))
+      .attr("x2", d=>x(d))
+      .attr("y1", margin.top-6)
+      .attr("y2", H - margin.bottom)
+      .attr("stroke", "var(--border)")
+      .attr("stroke-width", 1);
+
+  // lane labels and separators
+  const laneG = svg.append("g");
+  laneG.selectAll("text.l")
+    .data(lanes)
+    .join("text")
+      .attr("x", margin.left - 10)
+      .attr("y", (d,i)=> y(i) + laneH/2 + 4)
+      .attr("text-anchor","end")
+      .style("fill","currentColor")
+      .style("font","800 12px system-ui")
+      .text(d=>d.label);
+
+  laneG.selectAll("line.sep")
+    .data(lanes)
+    .join("line")
+      .attr("x1", margin.left)
+      .attr("x2", W - margin.right)
+      .attr("y1", (d,i)=> y(i) + laneH)
+      .attr("y2", (d,i)=> y(i) + laneH)
+      .attr("stroke","var(--border)");
+
+  // tooltip
+  const tipHost = d3.select(host).append("div").style("position","relative");
+  const tooltip = tipHost.append("div")
+    .style("position","absolute")
+    .style("pointer-events","none")
+    .style("padding","8px 10px")
+    .style("border-radius","10px")
+    .style("border","1px solid var(--border)")
+    .style("background","var(--panel)")
+    .style("color","var(--text)")
+    .style("font","12px system-ui,-apple-system,Segoe UI,Roboto,Arial")
+    .style("display","none")
+    .style("box-shadow","0 10px 24px rgba(0,0,0,.18)");
+
+  const bounds = () => host.getBoundingClientRect();
+  function showTip(evt, d){
+    const durMin = Math.max(0, Math.round((d._end - d._start)/60000));
+    tooltip.style("display","block")
+      .html(`
+        <div style="font-weight:950;margin-bottom:4px;">${d.title||"Untitled"}</div>
+        <div class="muted" style="margin-bottom:4px;">${(d.type||"other").toUpperCase()} • ${d.event_id||""}</div>
+        <div><strong>Start:</strong> ${fmtWhen(d._start)}</div>
+        <div><strong>End:</strong> ${fmtWhen(d._end)}</div>
+        <div class="muted" style="margin-top:4px;">~${durMin} mins</div>
+      `);
+    const b = bounds();
+    tooltip
+      .style("left", (evt.clientX - b.left + 10) + "px")
+      .style("top",  (evt.clientY - b.top  - 10) + "px");
+  }
+  function hideTip(){ tooltip.style("display","none"); }
+
+  // bars
+  const barH = 14;
+  svg.append("g")
+    .selectAll("rect.ev")
+    .data(data)
+    .join("rect")
+      .attr("class","ev")
+      .attr("x", d=>x(d._start))
+      .attr("y", d=>y(d.laneI) + (laneH - barH)/2)
+      .attr("width", d=>Math.max(2, x(d._end) - x(d._start)))
+      .attr("height", barH)
+      .attr("rx", 7)
+      .attr("fill", d=>color(d.lane))
+      .attr("opacity", 0.92)
+      .on("mousemove", (evt,d)=>showTip(evt,d))
+      .on("mouseleave", hideTip);
+
+  // optional: title text on gig bars when there is room
+  svg.append("g")
+    .selectAll("text.t")
+    .data(data)
+    .join("text")
+      .attr("x", d=>x(d._start)+8)
+      .attr("y", d=>y(d.laneI) + laneH/2 + 4)
+      .style("fill","currentColor")
+      .style("font","800 11px system-ui")
+      .style("pointer-events","none")
+      .text(d=>{
+        const w = x(d._end)-x(d._start);
+        if(w < 90) return ""; // too cramped
+        return String(d.title||"").slice(0,22);
+      });
+
+  // legend
+  const lg = svg.append("g").attr("transform", `translate(${margin.left},${14})`);
+  const items = lanes.map(l=>({k:l.key,label:l.label}));
+  const itemW = 110;
+  lg.selectAll("g.i")
+    .data(items)
+    .join("g")
+      .attr("class","i")
+      .attr("transform",(d,i)=>`translate(${i*itemW},0)`)
+      .each(function(d){
+        const g = d3.select(this);
+        g.append("rect").attr("x",0).attr("y",-10).attr("width",14).attr("height",14).attr("rx",4).attr("fill", color(d.k));
+        g.append("text").attr("x",20).attr("y",2).style("font","12px system-ui").style("fill","currentColor").style("font-weight",800).text(d.label);
+      });
+
+  // header note
+  host.insertAdjacentHTML("afterbegin", `<div class="muted small" style="margin-bottom:6px">Bars show each event on its day (start→end). Hover for details.</div>`);
+}
+
+function renderEventsAndTasks(){
+  const now = new Date();
+
+  const monthsAhead = parseInt($("eventsRange")?.value || "3", 10);
+  const limit = addMonths(now, monthsAhead);
+
+  if($("eventsRangeLabel")){
+    $("eventsRangeLabel").textContent = `Next ${monthsAhead === 12 ? "1 year" : monthsAhead + " months"}`;
+  }
+
+  const upcoming = filteredEvents(state.events)
+    .map(e => ({...e,_start:toDate(e.start),_end:toDate(e.end)}))
+    .filter(e => e._start && e._start >= now && e._start <= limit)
+    .sort((a,b)=>a._start-b._start);
+
+  renderBandActivityChart(state.events, monthsAhead);
+
+  $("eventsList").innerHTML = upcoming.length
+    ? upcoming.slice(0,60).map(e=>`
+        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div class="row">
+            <span class="pill"><strong>${(e.type||"event").toUpperCase()}</strong></span>
+            <div><strong>${e.title||"Untitled"}</strong> <span class="muted">(${e.event_id||""})</span></div>
+          </div>
+          <div class="row" style="margin-top:6px">
+            <span class="pill">${fmtWhen(e._start)}</span>
+            <span class="pill"><strong>Venue</strong> ${e.venue||"n/a"}</span>
+            ${e.map_url ? `<span class="pill">${safeLink(e.map_url,"Map")}</span>` : ""}
+          </div>
+        </div>
+      `).join("")
+    : `<div class="muted">No upcoming events.</div>`;
+
+  const tasks = state.tasks.slice().sort((a,b)=>(a.due||"").localeCompare(b.due||""));
+  $("tasksList").innerHTML = tasks.length ? `
+    <table>
+      <thead><tr><th>Due</th><th>Task</th><th>Status</th><th>Event</th></tr></thead>
+      <tbody>
+        ${tasks.slice(0,80).map(t=>`
+          <tr>
+            <td>${t.due||""}</td>
+            <td>${t.task||""}</td>
+            <td>${t.status||""}</td>
+            <td class="muted">${t.event_id||""}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+    <div class="muted small" style="margin-top:8px;">Showing ${Math.min(tasks.length,80)} of ${tasks.length}</div>
+  ` : `<div class="muted">No tasks.</div>`;
+}
+
+function renderSets(){
+  if(!state.sets.length){
+    $("setsBox").innerHTML = `<div class="muted">No sets.</div>`;
+    return;
+  }
+  const piecesById = new Map(state.pieces.map(p=>[p.piece_id,p]));
+  const setPiecesBySet = new Map();
+  for(const sp of state.setPieces){
+    const sid = sp.set_id || "";
+    if(!sid) continue;
+    const arr = setPiecesBySet.get(sid) || [];
+    arr.push(sp);
+    setPiecesBySet.set(sid, arr);
+  }
+
+  $("setsBox").innerHTML = state.sets.map(s=>{
+    const sps = (setPiecesBySet.get(s.set_id)||[]).slice()
+      .sort((a,b)=>Number(a.order||9999)-Number(b.order||9999));
+    const items = sps.length ? `
+      <div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px">
+        ${sps.map(sp=>{
+          const p = piecesById.get(sp.piece_id) || {};
+          return `<div style="padding:6px 0;border-bottom:1px solid var(--border)">
+            <div class="row">
+              <span class="pill"><strong>#${sp.order||""}</strong></span>
+              <div><strong>${p.title || sp.piece_id}</strong> <span class="muted">${p.composer ? "("+p.composer+")" : ""}</span></div>
+              <div class="right muted">${durText(p.duration_sec)}</div>
+            </div>
+            ${sp.performance_notes ? `<div class="muted small" style="margin-top:4px">${sp.performance_notes}</div>` : ""}
+          </div>`;
+        }).join("")}
+      </div>
+    ` : `<div class="muted small" style="margin-top:6px">No SetPieces for this set.</div>`;
+
+    return `
+      <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+        <div class="row">
+          <span class="pill"><strong>${s.set_id||""}</strong></span>
+          <div><strong>${s.name||"Unnamed set"}</strong> <span class="muted">${s.description||""}</span></div>
+        </div>
+        ${s.notes ? `<div class="muted small" style="margin-top:6px">${s.notes}</div>` : ""}
+        ${items}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderCommittee(){
+  $("rolesBox").innerHTML = state.roles.length ? `
+    <table>
+      <thead><tr><th>Role</th><th>Member</th><th>Notes</th></tr></thead>
+      <tbody>
+        ${state.roles.map(r=>{
+          const name = (state.members.find(m=>m.member_id===r.member_id)?.name) || r.member_id || "";
+          return `<tr><td>${r.role||""}</td><td>${name}</td><td class="muted">${r.notes||""}</td></tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+  ` : `<div class="muted">No roles.</div>`;
+
+  $("assetsBox").innerHTML = state.assets.length ? `
+    <table>
+      <thead><tr><th>Asset</th><th>Holder</th><th>Condition</th><th>Last checked</th></tr></thead>
+      <tbody>
+        ${state.assets.map(a=>{
+          const holder = (state.members.find(m=>m.member_id===a.holder_member_id)?.name) || a.holder_member_id || "";
+          return `<tr><td>${a.asset_type||""} — ${a.description||""}</td><td>${holder}</td><td>${a.condition||""}</td><td class="muted">${a.last_checked||""}</td></tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+  ` : `<div class="muted">No assets.</div>`;
+}
+
+// -------- Tabs --------
+function switchTab(name){
+  const tabs=["tonight","library","gigs","sets","committee"];
+  for(const t of tabs){
+    $("tab-"+t).classList.toggle("hidden", t!==name);
+    document.querySelector(`.tabbtn[data-tab="${t}"]`).classList.toggle("active", t===name);
+  }
+  if(name==="library") renderLibrary();
+  if(name==="gigs") renderEventsAndTasks();
+  if(name==="sets") renderSets();
+  if(name==="committee") renderCommittee();
+}
+
+document.querySelectorAll(".tabbtn").forEach(btn=>{
+  btn.addEventListener("click", ()=>switchTab(btn.dataset.tab));
+});
+$("refreshBtn").addEventListener("click", loadAll);
+$("libSearch").addEventListener("input", renderLibrary);
+$("libGrade").addEventListener("change", renderLibrary);
+$("libMaxDur").addEventListener("change", renderLibrary);
+
+$("eventsRange")?.addEventListener("change", renderEventsAndTasks);
+window.addEventListener("resize", () => {
+  if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
+});
+
+// -------- Load all data --------
+async function loadAll(){
+  setStatus("Loading…");
+  $("sourceWarn").classList.add("hidden");
+
+  try{
+    if(API_URL && API_URL.trim()){
+      const payload = await fetchAllJson();
+      const d = payload.data;
+
+      state.members   = d.Members   || [];
+      state.roles     = d.Roles     || [];
+      state.assets    = d.Assets    || [];
+      state.pieces    = d.Pieces    || [];
+      state.parts     = d.Parts     || [];
+      state.sets      = d.Sets      || [];
+      state.setPieces = d.SetPieces || [];
+      state.events    = d.Events    || [];
+      state.program   = d.Program   || [];
+      state.tasks     = d.Tasks     || [];
+      state.rsvp      = d.RSVP      || [];
+
+      state.lastLoaded = new Date((payload.meta && payload.meta.generatedAt) ? payload.meta.generatedAt : Date.now());
+      state.source = "json";
     } else {
-      eventCounts.set(k, (eventCounts.get(k)||0) + 1);
+      $("sourceWarn").classList.remove("hidden");
+
+      const [
+        members, roles, assets,
+        pieces, parts, sets, setPieces,
+        events, program, tasks, rsvp
+      ] = await Promise.all([
+        fetchCsv(TAB.Members),
+        fetchCsv(TAB.Roles),
+        fetchCsv(TAB.Assets),
+
+        fetchCsv(TAB.Pieces),
+        fetchCsv(TAB.Parts),
+        fetchCsv(TAB.Sets),
+        fetchCsv(TAB.SetPieces),
+
+        fetchCsv(TAB.Events),
+        fetchCsv(TAB.Program),
+        fetchCsv(TAB.Tasks),
+        fetchCsv(TAB.RSVP),
+      ]);
+
+      state.members = members; state.roles = roles; state.assets = assets;
+      state.pieces = pieces; state.parts = parts; state.sets = sets; state.setPieces = setPieces;
+      state.events = events; state.program = program; state.tasks = tasks; state.rsvp = rsvp;
+
+      state.lastLoaded = new Date();
+      state.source = "csv";
     }
+
+    setStatus(`Loaded (${state.source}) — members:${state.members.length} pieces:${state.pieces.length} events:${state.events.length} — ${state.lastLoaded.toLocaleString()}`);
+
+    renderNextEvent();
+    renderDepartureBoard();
+    renderLibrary();
+    renderEventsAndTasks();
+    renderSets();
+    renderCommittee();
+  }catch(err){
+    console.error(err);
+    setStatus(`Load failed: ${String(err.message||err)}`);
+    $("nextEventBox").innerHTML = `
+      <div class="warnbox">
+        <strong>Error loading data:</strong> ${String(err.message||err)}
+        <div class="muted small" style="margin-top:8px">
+          If using CSV fallback: set the Google Sheet to <strong>Anyone with the link → Viewer</strong>.
+          <br/>If using JSON: confirm your Apps Script Web App is deployed with access = <strong>Anyone</strong>.
+        </div>
+      </div>
+    `;
   }
-
-  const dayKeys = days.map(dayKey);
-  const maxEv = Math.max(1, ...dayKeys.map(k => eventCounts.get(k)||0));
-  const maxRh = Math.max(1, ...dayKeys.map(k => reheCounts.get(k)||0));
-  const maxY = Math.max(maxEv, maxRh);
-
-  // SVG dims
-  const W = 640, H = 170;
-  const padL = 28, padR = 10, padT = 10, padB = 22;
-  const innerW = W - padL - padR;
-  const innerH = H - padT - padB;
-  const step = innerW / dayKeys.length;
-
-  const xOf = (i)=> padL + i*step;
-  const yOf = (v)=> padT + (1 - (v/maxY))*innerH;
-
-  // clear
-  svg.innerHTML = "";
-
-  // grid lines (y)
-  for(let g=0; g<=maxY; g++){
-    const y = yOf(g);
-    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
-    line.setAttribute("x1", padL);
-    line.setAttribute("x2", W-padR);
-    line.setAttribute("y1", y);
-    line.setAttribute("y2", y);
-    line.setAttribute("stroke", "rgba(127,127,127,.18)");
-    line.setAttribute("stroke-width", "1");
-    svg.appendChild(line);
-  }
-
-  // rehearsal bars (behind)
-  if(!hideRehearsals){
-    for(let i=0;i<dayKeys.length;i++){
-      const k = dayKeys[i];
-      const n = reheCounts.get(k)||0;
-      if(n<=0) continue;
-
-      const x = xOf(i) + 1;
-      const bw = Math.max(2, step - 2);
-      const y = yOf(n);
-      const h = (padT + innerH) - y;
-
-      const r = document.createElementNS("http://www.w3.org/2000/svg","rect");
-      r.setAttribute("x", x);
-      r.setAttribute("y", y);
-      r.setAttribute("width", bw);
-      r.setAttribute("height", h);
-      r.setAttribute("rx", "2");
-      r.setAttribute("fill", "rgba(127,127,127,.18)");
-      svg.appendChild(r);
-    }
-  }
-
-  // events line (non-rehearsal)
-  let dPath = "";
-  for(let i=0;i<dayKeys.length;i++){
-    const k = dayKeys[i];
-    const n = eventCounts.get(k)||0;
-    const x = xOf(i) + step/2;
-    const y = yOf(n);
-    dPath += (i===0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
-  }
-  const path = document.createElementNS("http://www.w3.org/2000/svg","path");
-  path.setAttribute("d", dPath);
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", getComputedStyle(document.documentElement).getPropertyValue("--link").trim() || "#0b63ff");
-  path.setAttribute("stroke-width", "2.5");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  svg.appendChild(path);
-
-  // dots
-  for(let i=0;i<dayKeys.length;i++){
-    const k = dayKeys[i];
-    const n = eventCounts.get(k)||0;
-    if(n<=0) continue;
-    const x = xOf(i) + step/2;
-    const y = yOf(n);
-
-    const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
-    c.setAttribute("cx", x);
-    c.setAttribute("cy", y);
-    c.setAttribute("r", "3.2");
-    c.setAttribute("fill", getComputedStyle(document.documentElement).getPropertyValue("--link").trim() || "#0b63ff");
-    svg.appendChild(c);
-  }
-
-  // x labels (weekly)
-  for(let i=0;i<dayKeys.length;i++){
-    if(i%7!==0) continue;
-    const dt = days[i];
-    const t = document.createElementNS("http://www.w3.org/2000/svg","text");
-    t.setAttribute("x", xOf(i) + 2);
-    t.setAttribute("y", H-7);
-    t.setAttribute("font-size","11");
-    t.setAttribute("fill", "rgba(127,127,127,.9)");
-    t.textContent = `${pad2(dt.getDate())}/${pad2(dt.getMonth()+1)}`;
-    svg.appendChild(t);
-  }
-
-  const totalEv = dayKeys.reduce((a,k)=>a+(eventCounts.get(k)||0),0);
-  const totalRh = dayKeys.reduce((a,k)=>a+(reheCounts.get(k)||0),0);
-
-  sub.innerHTML = `
-    <span class="chip">Non-rehearsal events: <strong>${totalEv}</strong></span>
-    <span class="chip">Rehearsals: <strong>${hideRehearsals ? "hidden" : totalRh}</strong></span>
-  `;
 }
 
-
-/* =========================
-   ACTIONS
-   ========================= */
-function jumpToRSVP(){
-  // simple focus: scroll into view on mobile
-  $("rsvpBox").scrollIntoView({behavior:"smooth", block:"start"});
-}
-function copyEventId(id){
-  const s = String(id||"").trim();
-  if(!s) return;
-  navigator.clipboard?.writeText(s);
-  $("statusLine").textContent = `Copied event_id: ${s}`;
-}
-function fitToday(){
-  // placeholder: just rerender (kept for your earlier “Today” button)
-  renderAll();
-}
-
-
-/* =========================
-   INIT
-   ========================= */
-(function init(){
-  // theme
-  const saved = localStorage.getItem("bb_theme");
-  setTheme(saved || "light");
-
-  $("btnTheme").addEventListener("click", ()=>{ toggleTheme(); renderGraph(); });
-  $("btnFit").addEventListener("click", fitToday);
-
-  $("toggleHideRehearsals").addEventListener("change", ()=>{
-    renderAll();
-  });
-
-  // If you want default hide rehearsals:
-  // $("toggleHideRehearsals").checked = true;
-
-  // Load data + render
-  (async ()=>{
-    try{
-      if(USE_DEBUG_PANEL) $("debugBox").style.display = "";
-      await loadData();
-    }catch(err){
-      console.error(err);
-      $("dataModePill").textContent = "Data: demo (load failed)";
-      $("statusLine").textContent = `Load failed: ${err.message || err}`;
-      // minimal demo data to keep UI alive
-      state.events = [
-        { event_id:"e2026-02-03", type:"other", title:"Repertoire Planning Listening Party", start:"2026-02-03 19:30:00", end:"2026-02-03 21:30:00", venue:"Clovelly Public School", map_url:"https://www.google.com/maps", uniform:"Rehearsal blacks", notes:"Focus: new program" },
-        { event_id:"e2026-02-10", type:"rehearsal", title:"Rehearsal #1", start:"2026-02-10 19:30:00", end:"2026-02-10 21:30:00", venue:"Clovelly Public School", map_url:"https://www.google.com/maps", uniform:"Rehearsal blacks", notes:"Focus: new program" }
-      ];
-      state.program = [];
-      state.pieces = [];
-      state.rsvp = [];
-    }
-    renderAll();
-  })();
-})();
+loadAll();
 </script>
 </body>
 </html>
