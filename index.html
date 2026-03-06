@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bondi Brass Admin Proto</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
   <style>
     :root{
       --bg:#f6f7fb; --panel:#ffffff; --muted:#5c6575; --text:#0f1220;
@@ -178,6 +179,17 @@
       .typeChip{ padding:5px 9px; font-size:11px; }
       .optionalPill{ display:none !important; }
       .boardSub{ display:none; }
+      .pill{ padding:4px 7px; font-size:11px; }
+      .heroTitle{ font-size:14px; }
+      .heroMeta{ font-size:11px; }
+      .row{ gap:6px; }
+      .eventCompact{ padding:8px; border-radius:12px; margin-bottom:6px; }
+      .eventCompactTop{ margin-bottom:4px; gap:6px; }
+      .typeBadge, .eventId{ font-size:10px; padding:3px 7px; }
+      .eventTitleRow{ font-size:13px; margin-bottom:6px; }
+      .metaItem{ font-size:11px; gap:6px; }
+      .miniAction{ padding:5px 8px; font-size:11px; }
+      .eventNote{ font-size:11px; margin-top:6px; padding-top:6px; }
     }
 
     /* Compact event “hero” block on Tonight */
@@ -185,6 +197,147 @@
     .heroTitle{ font-weight:950; font-size:15px; }
     .heroMeta{ color:var(--muted); font-size:12px; }
     .divider{ height:1px; background:var(--border); margin:10px 0; }
+
+    .material-symbols-outlined{
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 20;
+      font-size:18px;
+      line-height:1;
+      vertical-align:middle;
+    }
+    .iconMini{display:inline-flex;align-items:center;gap:6px;}
+
+    .eventCompact{
+      border:1px solid var(--border);
+      background:var(--panel);
+      border-radius:14px;
+      padding:10px;
+      margin-bottom:8px;
+    }
+    .eventCompactTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:6px;
+    }
+    .typeBadge,
+    .eventId{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:var(--chip);
+      font-size:11px;
+      font-weight:800;
+    }
+    .type-gig{ background:rgba(241,196,15,.16); }
+    .type-rehearsal{ background:rgba(11,99,255,.12); }
+    .type-other{ background:rgba(0,0,0,.05); }
+    [data-theme="dark"] .type-other{ background:rgba(255,255,255,.08); }
+
+    .eventTitleRow{
+      font-size:14px;
+      line-height:1.3;
+      margin-bottom:8px;
+    }
+    .eventMetaGrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:6px;
+    }
+    .metaItem{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .metaItem .material-symbols-outlined{
+      font-size:16px;
+      margin-top:1px;
+      opacity:.9;
+    }
+    .eventActions{
+      display:flex;
+      gap:8px;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+    .miniAction{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--chip);
+      font-size:12px;
+      font-weight:800;
+      text-decoration:none;
+    }
+    .eventNote{
+      margin-top:8px;
+      font-size:12px;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+      padding-top:8px;
+    }
+
+    .scheduleCards{display:grid;grid-template-columns:1fr;gap:10px;}
+    .scheduleCard{
+      border:1px solid var(--border);background:var(--panel);border-radius:14px;
+      padding:10px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;
+    }
+    .scheduleMain{min-width:0;}
+    .scheduleCompactBadgeRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px;}
+    .scheduleTitle{font-size:14px;line-height:1.25;font-weight:900;margin-bottom:6px;}
+    .scheduleLine{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:12px;margin-top:4px;}
+    .scheduleLine .material-symbols-outlined{font-size:16px;margin-top:1px;opacity:.9;}
+    .scheduleLink{text-decoration:none;color:var(--link);font-weight:700;}
+    .scheduleLink:hover{text-decoration:underline;}
+    .responseRail,.responseBar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+    .responseRail{flex-direction:column;align-items:stretch;min-width:146px;}
+    .responseBtn{
+      border:1px solid var(--border);background:var(--chip);color:var(--text);
+      border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
+    }
+    .responseBtn .material-symbols-outlined{font-size:16px;}
+    .responseBtn.activeYes{background:rgba(46,204,113,.18);border-color:rgba(46,204,113,.40);}
+    .responseBtn.activeNo{background:rgba(231,76,60,.16);border-color:rgba(231,76,60,.40);}
+    .responseBtn.noteOpen{background:rgba(11,99,255,.10);border-color:rgba(11,99,255,.25);}
+    .responseStatus{font-size:11px;color:var(--muted);margin-top:4px;}
+    .responseStatus strong{color:var(--text);}
+    .noteAccordion{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+    .noteAccordion.open{display:block;}
+    .noteText{width:100%;min-height:68px;resize:vertical;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:9px 10px;box-sizing:border-box;font:inherit;}
+    .noteActions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+    .saveHint{font-size:11px;color:var(--muted);}
+    .saveHint.ok{color:var(--good);}
+    .saveHint.err{color:var(--bad);}
+    .eventCompact.eventRespondable{position:relative;padding-right:10px;}
+    .responseWrap{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+    .responseWrap .responseBar{margin-bottom:4px;}
+    @media (max-width:760px){
+      .scheduleCard{grid-template-columns:1fr;}
+      .responseRail{min-width:0;flex-direction:row;align-items:center;}
+    }
+    @media (max-width:560px){
+      .scheduleCard{padding:8px;border-radius:12px;}
+      .scheduleCompactBadgeRow{gap:6px;margin-bottom:4px;}
+      .scheduleTitle{font-size:13px;margin-bottom:4px;}
+      .scheduleLine{font-size:11px;gap:6px;}
+      .responseBtn{padding:6px 9px;font-size:11px;}
+      .responseRail{gap:5px;}
+    }
+
   </style>
 </head>
 <body>
@@ -196,6 +349,7 @@
       </div>
       <div>
         <div class="title">Bondi Brass — Admin Proto</div>
+        <div class="sub" id="greetingLine">Hi, Roy</div>
         <div class="sub" id="statusLine">Not loaded</div>
       </div>
     </div>
@@ -224,8 +378,8 @@
       <div class="boardWrap">
         <div class="boardHeader">
           <div>
-            <h2 class="boardTitle">Upcoming — Board</h2>
-            <div class="boardSub">Next up, next rehearsal, next gig</div>
+            <h2 class="boardTitle">Band Schedule</h2>
+            <div class="boardSub">Next activity overview</div>
           </div>
         </div>
         <div id="departureBoard"></div>
@@ -250,7 +404,7 @@
       <div class="card">
         <h2>RSVP summary (for next event)</h2>
         <div class="muted small" style="margin-bottom:10px;">
-          Read-only demo. Write-back can be added later (Google Form / Apps Script).
+          Per-card response pattern. Write-back can post to your external endpoint / sheet tab.
         </div>
         <div id="rsvpBox" class="muted">No RSVP data.</div>
       </div>
@@ -363,6 +517,9 @@
  * =========================
  */
 const API_URL = ""; // <-- paste Apps Script Web App URL (ends in /exec) to use JSON
+const RSVP_POST_URL = ""; // optional write-back endpoint for per-user responses
+const CURRENT_USER_NAME = "Roy";
+const CURRENT_MEMBER_ID = "roy";
 
 /**
  * =========================
@@ -398,6 +555,132 @@ const state = {
 function $(id){ return document.getElementById(id); }
 function setStatus(msg){ $("statusLine").textContent = msg; }
 
+function setGreeting(name){
+  const el = $("greetingLine");
+  if(el) el.textContent = `Hi, ${name || CURRENT_USER_NAME}`;
+}
+
+const responseStore = { noteOpenByEvent: {}, data: {} };
+function responseStorageKey(){ return `bb_responses_${CURRENT_MEMBER_ID}`; }
+function loadResponseStore(){
+  try{ responseStore.data = JSON.parse(localStorage.getItem(responseStorageKey()) || '{}') || {}; }
+  catch(_){ responseStore.data = {}; }
+}
+function saveResponseStore(){
+  localStorage.setItem(responseStorageKey(), JSON.stringify(responseStore.data));
+}
+function baseResponseForEvent(eventId){
+  const row = state.rsvp.find(r => (r.event_id||'') === (eventId||'') && String(r.member_id||'').toLowerCase() === CURRENT_MEMBER_ID.toLowerCase());
+  if(!row) return { response:'', note:'' };
+  return { response: String(row.response||'').toUpperCase(), note: row.note || row.comment || '' };
+}
+function getResponseForEvent(eventId){
+  const stored = responseStore.data[eventId] || {};
+  const base = baseResponseForEvent(eventId);
+  return {
+    response: stored.response ?? base.response ?? '',
+    note: stored.note ?? base.note ?? '',
+    updated_at: stored.updated_at || ''
+  };
+}
+function responseLabel(v){
+  return v === 'Y' ? 'Available' : (v === 'N' ? 'Not available' : 'No response yet');
+}
+async function postResponseToServer(payload){
+  if(!RSVP_POST_URL) return { ok:true, localOnly:true };
+  const res = await fetch(RSVP_POST_URL, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if(!res.ok) throw new Error(`POST failed (${res.status})`);
+  return await res.json().catch(()=>({ ok:true }));
+}
+async function persistResponse(eventId, patch){
+  const existing = getResponseForEvent(eventId);
+  const merged = { ...existing, ...patch, updated_at: new Date().toISOString() };
+  responseStore.data[eventId] = merged;
+  saveResponseStore();
+  const payload = {
+    member_id: CURRENT_MEMBER_ID,
+    member_name: CURRENT_USER_NAME,
+    event_id: eventId,
+    response: merged.response || '',
+    note: merged.note || '',
+    updated_at: merged.updated_at
+  };
+  return await postResponseToServer(payload);
+}
+function renderResponseControls(eventId, view='list'){
+  if(!eventId) return '';
+  const resp = getResponseForEvent(eventId);
+  const noteOpen = !!responseStore.noteOpenByEvent[eventId];
+  const wrapClass = view === 'schedule' ? 'responseRail' : 'responseWrap';
+  const barClass = view === 'schedule' ? 'responseRail' : 'responseBar';
+  return `
+    <div class="${wrapClass}" data-response-wrap="${eventId}">
+      <div class="${barClass}">
+        <button class="responseBtn ${resp.response==='Y' ? 'activeYes' : ''}" data-action="resp-yes" data-event-id="${eventId}">
+          <span class="material-symbols-outlined">check_circle</span><span>I'm available</span>
+        </button>
+        <button class="responseBtn ${resp.response==='N' ? 'activeNo' : ''}" data-action="resp-no" data-event-id="${eventId}">
+          <span class="material-symbols-outlined">cancel</span><span>I'm not available</span>
+        </button>
+        <button class="responseBtn ${noteOpen ? 'noteOpen' : ''}" data-action="toggle-note" data-event-id="${eventId}">
+          <span class="material-symbols-outlined">edit_note</span><span>${noteOpen ? 'Hide note' : 'Add note'}</span>
+        </button>
+      </div>
+      <div class="responseStatus"><strong>Your response:</strong> ${responseLabel(resp.response)}</div>
+      <div class="noteAccordion ${noteOpen ? 'open' : ''}" data-note-box="${eventId}">
+        <textarea class="noteText" data-note-text="${eventId}" placeholder="Add a note for the band admin…">${(resp.note || '').replace(/</g,'&lt;')}</textarea>
+        <div class="noteActions">
+          <button class="btn primary" data-action="save-note" data-event-id="${eventId}">Save note</button>
+          <button class="btn" data-action="cancel-note" data-event-id="${eventId}">Cancel</button>
+          <span class="saveHint" data-save-hint="${eventId}"></span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function setSaveHint(eventId, msg, kind=''){
+  const el = document.querySelector(`[data-save-hint="${eventId}"]`);
+  if(!el) return;
+  el.className = `saveHint ${kind}`.trim();
+  el.textContent = msg || '';
+}
+async function handleResponseAction(action, eventId){
+  if(!eventId) return;
+  try{
+    if(action === 'resp-yes'){
+      await persistResponse(eventId, { response:'Y' });
+      setSaveHint(eventId, 'Saved', 'ok');
+    }
+    else if(action === 'resp-no'){
+      await persistResponse(eventId, { response:'N' });
+      setSaveHint(eventId, 'Saved', 'ok');
+    }
+    else if(action === 'toggle-note'){
+      responseStore.noteOpenByEvent[eventId] = !responseStore.noteOpenByEvent[eventId];
+    }
+    else if(action === 'cancel-note'){
+      responseStore.noteOpenByEvent[eventId] = false;
+    }
+    else if(action === 'save-note'){
+      const ta = document.querySelector(`[data-note-text="${eventId}"]`);
+      const note = ta ? ta.value.trim() : '';
+      await persistResponse(eventId, { note });
+      responseStore.noteOpenByEvent[eventId] = false;
+      setSaveHint(eventId, 'Note saved', 'ok');
+    }
+    renderDepartureBoard();
+    if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
+  }catch(err){
+    console.error(err);
+    setSaveHint(eventId, String(err.message || err), 'err');
+  }
+}
+
+
 // -------- Ignore rehearsals toggle (localStorage) --------
 (function initIgnoreReh(){
   const saved = localStorage.getItem("bb_ignore_rehearsals");
@@ -418,6 +701,8 @@ $("ignoreRehChk").addEventListener("change", ()=>{
   const saved = localStorage.getItem("bb_theme") || "light";
   document.documentElement.dataset.theme = saved;
 })();
+setGreeting(CURRENT_USER_NAME);
+loadResponseStore();
 $("themeBtn").addEventListener("click", ()=>{
   const cur = document.documentElement.dataset.theme || "light";
   const next = cur === "dark" ? "light" : "dark";
@@ -544,73 +829,69 @@ function nextEvent(predicate){
     .sort((a,b)=>a._start-b._start)[0] || null;
 }
 
-function rowHTML(label, ev){
+function scheduleCardHTML(label, ev){
   if(!ev){
     return `
-      <tr>
-        <td><span class="typeChip"><span class="typeDot ${dotClassForType(label)}"></span>${label}</span></td>
-        <td class="boardEmpty">No upcoming ${label.toLowerCase()}.</td>
-        <td class="muted">—</td>
-      </tr>
+      <div class="scheduleCard">
+        <div class="scheduleMain">
+          <div class="scheduleCompactBadgeRow">
+            <span class="typeBadge type-other">
+              <span class="material-symbols-outlined">event</span>
+              <span>${label}</span>
+            </span>
+          </div>
+          <div class="scheduleTitle">Nothing scheduled yet.</div>
+          <div class="scheduleLine"><span class="material-symbols-outlined">schedule</span><span>n/a</span></div>
+          <div class="scheduleLine"><span class="material-symbols-outlined">map</span><span>n/a</span></div>
+          <div class="scheduleLine"><span class="material-symbols-outlined">checkroom</span><span>n/a</span></div>
+        </div>
+      </div>
     `;
   }
 
-  const when = ev._start ? fmtWhen(ev._start) : "n/a";
-  const venue = ev.venue || "n/a";
-  const uniform = ev.uniform || "n/a";
-  const map = ev.map_url ? safeLink(ev.map_url, "Map") : "";
-  const notes = (ev.notes||"").trim();
+  const typeClass = String(ev.type||'').toLowerCase()==='gig' ? 'type-gig' : (String(ev.type||'').toLowerCase()==='rehearsal' ? 'type-rehearsal' : 'type-other');
+  const when = ev._start ? fmtWhen(ev._start) : 'n/a';
+  const focus = (ev.focus || ev.notes || '').trim() || 'n/a';
+  const attire = (ev.uniform || 'n/a').trim();
+  const mapText = ev.venue || 'View map';
+  const mapHtml = ev.map_url ? `<a class="scheduleLink" href="${ev.map_url}" target="_blank" rel="noopener">${mapText}</a>` : `<span>${mapText}</span>`;
 
   return `
-    <tr>
-      <td>
-        <span class="typeChip">
-          <span class="typeDot ${dotClassForType(String(ev.type||label))}"></span>
-          ${label}
-        </span>
-      </td>
-      <td>
-        <div class="boardMain">${ev.title || "Untitled"}</div>
-        <div class="boardMetaRow">
-          <span class="pill"><strong>When</strong> ${when}</span>
-          <span class="pill"><strong>Venue</strong> ${venue}</span>
-          <span class="pill optionalPill"><strong>Uniform</strong> ${uniform}</span>
-          ${map ? `<span class="pill optionalPill">${map}</span>` : ""}
+    <div class="scheduleCard">
+      <div class="scheduleMain">
+        <div class="scheduleCompactBadgeRow">
+          <span class="typeBadge ${typeClass}">
+            <span class="material-symbols-outlined">event</span>
+            <span>${label}</span>
+          </span>
+          <span class="eventId">
+            <span class="material-symbols-outlined">tag</span>
+            <span>${ev.event_id || ''}</span>
+          </span>
         </div>
-        ${notes ? `<div class="muted small" style="margin-top:6px">${notes}</div>` : ""}
-      </td>
-      <td class="muted">${ev.event_id || ""}</td>
-    </tr>
+        <div class="scheduleTitle">${ev.title || 'Untitled'}</div>
+        <div class="scheduleLine"><span class="material-symbols-outlined">schedule</span><span><strong>${when}</strong>${focus && focus !== 'n/a' ? ` · ${focus}` : ''}</span></div>
+        <div class="scheduleLine"><span class="material-symbols-outlined">map</span><span>${mapHtml}</span></div>
+        <div class="scheduleLine"><span class="material-symbols-outlined">checkroom</span><span>${attire}</span></div>
+      </div>
+      ${renderResponseControls(ev.event_id, 'schedule')}
+    </div>
   `;
 }
 
 function renderDepartureBoard(){
   const nextUp = nextEvent();
-  // If rehearsals are ignored, the “Rehearsal” row becomes a simple “—” message.
   const nextReh = state.ignoreRehearsals ? null : nextEvent(e => isRehearsal(e));
   const nextGig = nextEvent(e => isGig(e));
 
   $("departureBoard").innerHTML = `
-    <table class="boardTable">
-      <thead>
-        <tr>
-          <th style="width:140px;">Board</th>
-          <th>Details</th>
-          <th style="width:120px;">Event ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${rowHTML("Next up", nextUp)}
-        ${state.ignoreRehearsals ? `
-          <tr>
-            <td><span class="typeChip"><span class="typeDot ${dotClassForType("rehearsal")}"></span>Rehearsal</span></td>
-            <td class="boardEmpty">Rehearsals hidden.</td>
-            <td class="muted">—</td>
-          </tr>
-        ` : rowHTML("Rehearsal", nextReh)}
-        ${rowHTML("Gig", nextGig)}
-      </tbody>
-    </table>
+    <div class="scheduleCards">
+      ${scheduleCardHTML('Next up', nextUp)}
+      ${state.ignoreRehearsals
+        ? scheduleCardHTML('Rehearsal', null).replace('Nothing scheduled yet.', 'Rehearsals hidden.')
+        : scheduleCardHTML('Rehearsal', nextReh)}
+      ${scheduleCardHTML('Gig', nextGig)}
+    </div>
   `;
 }
 
@@ -792,205 +1073,231 @@ function renderLibrary(){
  * We render a simple time axis (days) and draw horizontal bars per event from start→end.
  * Lanes: Gig / Rehearsal / Other. If “Ignore rehearsals” is on, rehearsal lane is removed.
  */
+
 function renderBandActivityChart(events, monthsAhead){
   const host = $("bandActivityChart");
   if(!host) return;
   host.innerHTML = "";
 
   const now = new Date();
-  const limit = addMonths(now, monthsAhead);
+  const start = d3.timeMonday.floor(now);
+  const end = addMonths(start, monthsAhead);
 
-  const raw = (events||[])
+  const rows = filteredEvents(events || [])
     .map(e => {
-      const start = toDate(e.start);
-      if(!start) return null;
-      const end = toDate(e.end) || new Date(+start + 2*60*60*1000); // fallback 2h
-      if(start < now || start > limit) return null;
-      const type = String(e.type||"other").toLowerCase();
-      return { ...e, _start:start, _end:end, _type:type };
+      const d = toDate(e.start);
+      if(!d || d < start || d > end) return null;
+      const type = String(e.type || "other").toLowerCase();
+      return {
+        ...e,
+        _start: d,
+        _type: type === "gig" ? "gig" : (type === "rehearsal" ? "rehearsal" : "other"),
+        dayKey: d3.timeFormat("%Y-%m-%d")(d)
+      };
     })
     .filter(Boolean);
 
-  const rows = filteredEvents(raw);
-  if(!rows.length){
-    host.innerHTML = `<div class="muted small">No activity in selected range.</div>`;
-    return;
+  const byDay = new Map();
+
+  rows.forEach(e => {
+    const entry = byDay.get(e.dayKey) || {
+      events: [],
+      count: 0,
+      typeCounts: { gig: 0, rehearsal: 0, other: 0 }
+    };
+    entry.events.push(e);
+    entry.count += 1;
+    entry.typeCounts[e._type] = (entry.typeCounts[e._type] || 0) + 1;
+    byDay.set(e.dayKey, entry);
+  });
+
+  function dominantType(typeCounts){
+    if((typeCounts.gig || 0) > 0) return "gig";
+    if((typeCounts.rehearsal || 0) > 0) return "rehearsal";
+    return "other";
   }
 
-  // lanes (keep stable order)
-  let lanes = [
-    { key:"gig", label:"Gig" },
-    { key:"rehearsal", label:"Rehearsal" },
-    { key:"other", label:"Other" }
-  ];
-  if(state.ignoreRehearsals) lanes = lanes.filter(l => l.key !== "rehearsal");
+  const allDays = d3.timeDays(start, end);
+  const data = allDays.map(d => {
+    const key = d3.timeFormat("%Y-%m-%d")(d);
+    const info = byDay.get(key) || { events: [], count: 0, typeCounts: { gig: 0, rehearsal: 0, other: 0 } };
+    return {
+      date: d,
+      key,
+      count: info.count,
+      events: info.events,
+      typeCounts: info.typeCounts,
+      dominantType: dominantType(info.typeCounts)
+    };
+  });
 
-  const laneIndex = new Map(lanes.map((l,i)=>[l.key,i]));
-  const laneFor = (t) => (t==="gig" ? "gig" : (t==="rehearsal" ? "rehearsal" : "other"));
+  const weeks = d3.groups(data, d => d3.timeMonday.floor(d.date).getTime());
+  const cell = 16;
+  const gap = 4;
+  const left = 34;
+  const top = 24;
+  const width = left + weeks.length * (cell + gap) + 10;
+  const height = top + 7 * (cell + gap) + 24;
 
-  const data = rows.map(e => ({
-    ...e,
-    lane: laneFor(e._type),
-    laneI: laneIndex.get(laneFor(e._type)) ?? laneIndex.get("other") ?? 0
-  })).filter(d => laneIndex.has(d.lane));
-
-  const minT = d3.min(data, d => d._start);
-  const maxT = d3.max(data, d => d._end);
-  // Pad to day boundaries so bars sit nicely "on the day"
-  const startDay = d3.timeDay.floor(minT);
-  const endDay = d3.timeDay.ceil(maxT);
-
-  const W = Math.max(520, host.clientWidth || 760);
-  const laneH = 30;
-  const H = 64 + lanes.length * laneH;
-  const margin = { top: 22, right: 14, bottom: 28, left: 92 };
-
-  const x = d3.scaleTime()
-    .domain([startDay, endDay])
-    .range([margin.left, W - margin.right]);
-
-  const y = (i) => margin.top + i*laneH;
-
-  // Colours: gigs = warn (yellow), rehearsal = link (blue), other = muted grey
   const css = getComputedStyle(document.documentElement);
-  const cGig = css.getPropertyValue("--warn").trim() || "#f1c40f";
-  const cReh = css.getPropertyValue("--link").trim() || "#0b63ff";
-  const cOther = css.getPropertyValue("--muted").trim() || "#5c6575";
+  const chip = css.getPropertyValue("--chip").trim() || "#eee";
+  const border = css.getPropertyValue("--border").trim() || "#ccc";
+  const link = css.getPropertyValue("--link").trim() || "#0b63ff";
+  const warn = css.getPropertyValue("--warn").trim() || "#f1c40f";
+  const muted = css.getPropertyValue("--muted").trim() || "#5c6575";
 
-  const color = (lane) => lane==="gig" ? cGig : (lane==="rehearsal" ? cReh : cOther);
+  function typeFill(d){
+    if(!d.count) return chip;
+
+    const t = d.dominantType;
+    if(t === "gig"){
+      if(d.count >= 4) return warn;
+      if(d.count === 3) return "rgba(241,196,15,.70)";
+      if(d.count === 2) return "rgba(241,196,15,.42)";
+      return "rgba(241,196,15,.22)";
+    }
+    if(t === "rehearsal"){
+      if(d.count >= 4) return link;
+      if(d.count === 3) return "rgba(11,99,255,.70)";
+      if(d.count === 2) return "rgba(11,99,255,.42)";
+      return "rgba(11,99,255,.22)";
+    }
+    if(d.count >= 4) return muted;
+    if(d.count === 3) return "rgba(92,101,117,.70)";
+    if(d.count === 2) return "rgba(92,101,117,.42)";
+    return "rgba(92,101,117,.22)";
+  }
+
+  host.insertAdjacentHTML(
+    "beforeend",
+    `<div class="muted small" style="margin-bottom:8px"><strong>Band activity</strong> — weekly view, GitHub-style. Colour = event type, depth = how many on that day.</div>`
+  );
 
   const svg = d3.select(host)
     .append("svg")
-    .attr("viewBox", `0 0 ${W} ${H}`)
+    .attr("viewBox", `0 0 ${width} ${height}`)
     .style("max-width","100%")
     .style("height","auto");
 
-  // x axis (days)
-  const axis = d3.axisBottom(x)
-    .ticks(Math.min(10, Math.max(5, Math.floor(W/120))))
-    .tickFormat(d3.timeFormat("%d %b"));
-
+  const dow = ["M","T","W","T","F","S","S"];
   svg.append("g")
-    .attr("transform", `translate(0,${H - margin.bottom})`)
-    .call(axis)
-    .call(g => g.selectAll("text").style("font-weight",800).style("fill","currentColor"));
-
-  // vertical day grid
-  const dayTicks = d3.timeDays(startDay, endDay);
-  svg.append("g")
-    .selectAll("line.day")
-    .data(dayTicks)
-    .join("line")
-      .attr("x1", d=>x(d))
-      .attr("x2", d=>x(d))
-      .attr("y1", margin.top-6)
-      .attr("y2", H - margin.bottom)
-      .attr("stroke", "var(--border)")
-      .attr("stroke-width", 1);
-
-  // lane labels and separators
-  const laneG = svg.append("g");
-  laneG.selectAll("text.l")
-    .data(lanes)
+    .selectAll("text.dow")
+    .data(dow)
     .join("text")
-      .attr("x", margin.left - 10)
-      .attr("y", (d,i)=> y(i) + laneH/2 + 4)
-      .attr("text-anchor","end")
-      .style("fill","currentColor")
-      .style("font","800 12px system-ui")
-      .text(d=>d.label);
+    .attr("x", 0)
+    .attr("y", (d,i) => top + i*(cell+gap) + 12)
+    .style("font", "11px system-ui")
+    .style("fill", "currentColor")
+    .text(d => d);
 
-  laneG.selectAll("line.sep")
-    .data(lanes)
-    .join("line")
-      .attr("x1", margin.left)
-      .attr("x2", W - margin.right)
-      .attr("y1", (d,i)=> y(i) + laneH)
-      .attr("y2", (d,i)=> y(i) + laneH)
-      .attr("stroke","var(--border)");
+  const monthFmt = d3.timeFormat("%b");
+  const shownMonths = new Set();
+  svg.append("g")
+    .selectAll("text.mon")
+    .data(weeks)
+    .join("text")
+    .attr("x", (d,i) => left + i*(cell+gap))
+    .attr("y", 12)
+    .style("font", "11px system-ui")
+    .style("fill", "currentColor")
+    .text(d => {
+      const dt = new Date(+d[0]);
+      const key = dt.getFullYear() + "-" + dt.getMonth();
+      if (shownMonths.has(key)) return "";
+      shownMonths.add(key);
+      return monthFmt(dt);
+    });
 
-  // tooltip
-  const tipHost = d3.select(host).append("div").style("position","relative");
-  const tooltip = tipHost.append("div")
+  const tipWrap = d3.select(host)
+    .append("div")
+    .style("position","relative");
+  const tooltip = tipWrap.append("div")
     .style("position","absolute")
+    .style("display","none")
     .style("pointer-events","none")
     .style("padding","8px 10px")
-    .style("border-radius","10px")
     .style("border","1px solid var(--border)")
+    .style("border-radius","10px")
     .style("background","var(--panel)")
-    .style("color","var(--text)")
-    .style("font","12px system-ui,-apple-system,Segoe UI,Roboto,Arial")
-    .style("display","none")
-    .style("box-shadow","0 10px 24px rgba(0,0,0,.18)");
+    .style("box-shadow","0 10px 24px rgba(0,0,0,.18)")
+    .style("font","12px system-ui")
+    .style("z-index","20");
 
-  const bounds = () => host.getBoundingClientRect();
-  function showTip(evt, d){
-    const durMin = Math.max(0, Math.round((d._end - d._start)/60000));
-    tooltip.style("display","block")
-      .html(`
-        <div style="font-weight:950;margin-bottom:4px;">${d.title||"Untitled"}</div>
-        <div class="muted" style="margin-bottom:4px;">${(d.type||"other").toUpperCase()} • ${d.event_id||""}</div>
-        <div><strong>Start:</strong> ${fmtWhen(d._start)}</div>
-        <div><strong>End:</strong> ${fmtWhen(d._end)}</div>
-        <div class="muted" style="margin-top:4px;">~${durMin} mins</div>
-      `);
-    const b = bounds();
+  function showTip(evt,d){
+    const fmt = d3.timeFormat("%a %d %b %Y");
+    const breakdown = [];
+    if(d.typeCounts.gig) breakdown.push(`Gig: ${d.typeCounts.gig}`);
+    if(d.typeCounts.rehearsal) breakdown.push(`Rehearsal: ${d.typeCounts.rehearsal}`);
+    if(d.typeCounts.other) breakdown.push(`Other: ${d.typeCounts.other}`);
+
     tooltip
-      .style("left", (evt.clientX - b.left + 10) + "px")
-      .style("top",  (evt.clientY - b.top  - 10) + "px");
+      .style("display","block")
+      .style("left", (evt.offsetX + 12) + "px")
+      .style("top", (evt.offsetY - 8) + "px")
+      .html(
+        `<div style="font-weight:900;margin-bottom:4px">${fmt(d.date)}</div>` +
+        (d.events.length
+          ? `<div class="muted" style="margin-bottom:4px">${breakdown.join(" · ")}</div>` +
+            d.events.map(ev => `<div>${(ev.type||"event").toUpperCase()} — ${ev.title||"Untitled"}</div>`).join("")
+          : `<div class="muted">No events</div>`)
+      );
   }
-  function hideTip(){ tooltip.style("display","none"); }
 
-  // bars
-  const barH = 14;
+  function hideTip(){
+    tooltip.style("display","none");
+  }
+
   svg.append("g")
-    .selectAll("rect.ev")
+    .selectAll("rect.day")
     .data(data)
     .join("rect")
-      .attr("class","ev")
-      .attr("x", d=>x(d._start))
-      .attr("y", d=>y(d.laneI) + (laneH - barH)/2)
-      .attr("width", d=>Math.max(2, x(d._end) - x(d._start)))
-      .attr("height", barH)
-      .attr("rx", 7)
-      .attr("fill", d=>color(d.lane))
-      .attr("opacity", 0.92)
-      .on("mousemove", (evt,d)=>showTip(evt,d))
-      .on("mouseleave", hideTip);
+    .attr("x", d => {
+      const weekIndex = Math.floor((d3.timeMonday.floor(d.date) - start) / (7*24*3600*1000));
+      return left + weekIndex * (cell + gap);
+    })
+    .attr("y", d => top + ((d.date.getDay() + 6) % 7) * (cell + gap))
+    .attr("width", cell)
+    .attr("height", cell)
+    .attr("rx", 4)
+    .attr("fill", d => typeFill(d))
+    .attr("stroke", border)
+    .style("cursor","pointer")
+    .on("mousemove", showTip)
+    .on("mouseleave", hideTip);
 
-  // optional: title text on gig bars when there is room
+  // add a tiny top-right marker when multiple types occur on the same day
   svg.append("g")
-    .selectAll("text.t")
-    .data(data)
-    .join("text")
-      .attr("x", d=>x(d._start)+8)
-      .attr("y", d=>y(d.laneI) + laneH/2 + 4)
-      .style("fill","currentColor")
-      .style("font","800 11px system-ui")
-      .style("pointer-events","none")
-      .text(d=>{
-        const w = x(d._end)-x(d._start);
-        if(w < 90) return ""; // too cramped
-        return String(d.title||"").slice(0,22);
-      });
+    .selectAll("circle.mix")
+    .data(data.filter(d => {
+      const nonZero = [d.typeCounts.gig, d.typeCounts.rehearsal, d.typeCounts.other].filter(v => v > 0).length;
+      return nonZero > 1;
+    }))
+    .join("circle")
+    .attr("cx", d => {
+      const weekIndex = Math.floor((d3.timeMonday.floor(d.date) - start) / (7*24*3600*1000));
+      return left + weekIndex * (cell + gap) + cell - 3;
+    })
+    .attr("cy", d => top + ((d.date.getDay() + 6) % 7) * (cell + gap) + 3)
+    .attr("r", 2)
+    .attr("fill", "var(--text)");
 
-  // legend
-  const lg = svg.append("g").attr("transform", `translate(${margin.left},${14})`);
-  const items = lanes.map(l=>({k:l.key,label:l.label}));
-  const itemW = 110;
-  lg.selectAll("g.i")
-    .data(items)
-    .join("g")
-      .attr("class","i")
-      .attr("transform",(d,i)=>`translate(${i*itemW},0)`)
-      .each(function(d){
-        const g = d3.select(this);
-        g.append("rect").attr("x",0).attr("y",-10).attr("width",14).attr("height",14).attr("rx",4).attr("fill", color(d.k));
-        g.append("text").attr("x",20).attr("y",2).style("font","12px system-ui").style("fill","currentColor").style("font-weight",800).text(d.label);
-      });
-
-  // header note
-  host.insertAdjacentHTML("afterbegin", `<div class="muted small" style="margin-bottom:6px">Bars show each event on its day (start→end). Hover for details.</div>`);
+  const legend = host.insertAdjacentElement("beforeend", document.createElement("div"));
+  legend.className = "muted small";
+  legend.style.marginTop = "8px";
+  legend.innerHTML = `
+    <span style="display:inline-flex;align-items:center;gap:6px;margin-right:14px;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:rgba(11,99,255,.42);border:1px solid var(--border)"></span> Rehearsal
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:6px;margin-right:14px;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:rgba(241,196,15,.42);border:1px solid var(--border)"></span> Gig
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:6px;margin-right:14px;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:rgba(92,101,117,.42);border:1px solid var(--border)"></span> Other
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:6px;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--chip);border:1px solid var(--border)"></span> None
+    </span>
+  `;
 }
 
 function renderEventsAndTasks(){
@@ -1012,16 +1319,59 @@ function renderEventsAndTasks(){
 
   $("eventsList").innerHTML = upcoming.length
     ? upcoming.slice(0,60).map(e=>`
-        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-          <div class="row">
-            <span class="pill"><strong>${(e.type||"event").toUpperCase()}</strong></span>
-            <div><strong>${e.title||"Untitled"}</strong> <span class="muted">(${e.event_id||""})</span></div>
+        <div class="eventCompact eventRespondable">
+          <div class="eventCompactTop">
+            <span class="typeBadge type-${(String(e.type||"other").toLowerCase()==="gig" ? "gig" : (String(e.type||"other").toLowerCase()==="rehearsal" ? "rehearsal" : "other"))}">
+              <span class="material-symbols-outlined">event</span>
+              ${(e.type||"event").toUpperCase()}
+            </span>
+            <span class="eventId">
+              <span class="material-symbols-outlined">tag</span>
+              ${e.event_id||""}
+            </span>
           </div>
-          <div class="row" style="margin-top:6px">
-            <span class="pill">${fmtWhen(e._start)}</span>
-            <span class="pill"><strong>Venue</strong> ${e.venue||"n/a"}</span>
-            ${e.map_url ? `<span class="pill">${safeLink(e.map_url,"Map")}</span>` : ""}
+
+          <div class="eventTitleRow">
+            <strong>${e.title||"Untitled"}</strong>
           </div>
+
+          <div class="eventMetaGrid">
+            <div class="metaItem">
+              <span class="material-symbols-outlined">schedule</span>
+              <span>${fmtWhen(e._start)}</span>
+            </div>
+
+            <div class="metaItem">
+              <span class="material-symbols-outlined">location_on</span>
+              <span>${e.venue||"n/a"}</span>
+            </div>
+
+            ${e.uniform ? `
+              <div class="metaItem">
+                <span class="material-symbols-outlined">checkroom</span>
+                <span>${e.uniform}</span>
+              </div>
+            ` : ""}
+
+            ${e.focus ? `
+              <div class="metaItem">
+                <span class="material-symbols-outlined">center_focus_strong</span>
+                <span>${e.focus}</span>
+              </div>
+            ` : ""}
+          </div>
+
+          ${(e.map_url && /maps\.google/i.test(e.map_url)) ? `
+            <div class="eventActions">
+              <a class="miniAction" href="${e.map_url}" target="_blank" rel="noopener">
+                <span class="material-symbols-outlined">map</span>
+                Map
+              </a>
+            </div>
+          ` : ""}
+
+          ${e.notes ? `<div class="eventNote">${e.notes}</div>` : ""}
+          ${renderResponseControls(e.event_id, "list")}
         </div>
       `).join("")
     : `<div class="muted">No upcoming events.</div>`;
@@ -1142,6 +1492,13 @@ $("libMaxDur").addEventListener("change", renderLibrary);
 $("eventsRange")?.addEventListener("change", renderEventsAndTasks);
 window.addEventListener("resize", () => {
   if(!$("tab-gigs").classList.contains("hidden")) renderEventsAndTasks();
+});
+
+
+document.addEventListener('click', (evt) => {
+  const btn = evt.target.closest('[data-action]');
+  if(!btn) return;
+  handleResponseAction(btn.dataset.action, btn.dataset.eventId);
 });
 
 // -------- Load all data --------
